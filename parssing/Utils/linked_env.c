@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked.c                                           :+:      :+:    :+:   */
+/*   linked_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/19 11:45:18 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/04/20 12:41:09 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_node	*f_lstnew(void)
+s_env	*f_lstnew(void)
 {
-	t_node	*node;
+	s_env	*node;
 
-	node = malloc(sizeof(t_node));
+	node = malloc(sizeof(s_env));
 	if (!node)
 		return (NULL);
-	node->str = NULL; 
 	node->next = NULL;
 	return (node);
 }
 
-t_node	*f_lstlast(t_node *lst)
+s_env	*f_lstlast(s_env *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -35,9 +34,9 @@ t_node	*f_lstlast(t_node *lst)
 	return (lst);
 }
 
-void	f_lstadd_back(t_node **lst, t_node *new)
+void	f_lstadd_back(s_env **lst, s_env *new)
 {
-	t_node	*g;
+	s_env	*g;
 
 	if (!lst || !new)
 		return ;

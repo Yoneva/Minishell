@@ -1,7 +1,8 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror 
 HEADER = minishell.h ../libft/libft.h
-SRCS = minishell.c Utils/linked.c Utils/ft_realloc.c Utils/count_words.c  Utils/tokens.c
+SRCS = minishell.c Utils/linked_env.c Utils/linked_tokens.c Utils/ft_realloc.c Utils/count_words.c  Utils/tokens.c \
+	   
 OBJS = $(SRCS:.c=.o)
 NAME = Minishell
 LIBFT = /Users/amsbai/Desktop/minishell/libft/libft.a

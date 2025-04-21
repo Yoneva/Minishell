@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/18 19:13:58 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:16:41 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,18 @@ int main(int ac, char **av, char **env)
 {
 	(void)av;
 	(void)ac;
-	// int	i;
 	s_env	*listed = NULL;
+	s_tokens *tokens = NULL;
 	
-	// char *cmd;
-	// cmd = readline(">> ");
+	char *cmd;
+	cmd = readline(">> ");
 	fill_env_list(env, &listed);
-	// tokenize_shell(cmd,av);
-	while(listed->next)
+	tokenize_shell(cmd,&tokens);
+	printf("%s\n", cmd);
+	while(tokens)
 	{
-		printf("%s = %s\n", listed->data, listed->value);
-		listed = listed->next;
+		printf("%d = %s\n", tokens->type, tokens->value);
+		tokens = tokens->next;
 	}
-	
 	return (0);
 }

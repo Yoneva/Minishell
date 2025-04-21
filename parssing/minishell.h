@@ -6,15 +6,12 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/19 11:44:21 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:30:16 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-#define MAX_TOKENS 100
-#define MAX_TOKEN_SIZE 256
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -23,11 +20,6 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-
-typedef struct s_node {
-	void *str;
-	struct s_node *next;
-} t_node ; //generic linked list
 
 typedef struct f_env {
 	char	*data;
@@ -51,16 +43,22 @@ enum t_sign {
 typedef struct f_tokens {
 	enum t_sign type;
 	char	*value;
-	int		len;
 	struct f_tokens	*next;
 }	s_tokens ; //this struct is used to tokenize the command elements
 
+int main(int ac, char **av, char **env);
 char	**count_malloc(char const *str);
 char	**ft_slit(char const *s, char c);
-t_node	*f_lstlast(t_node *lst);
-void	f_lstadd_back(t_node **lst, t_node *new);
-t_node	*f_lstnew(void);
+
 void	*ft_realloc(void *str, size_t newsize);
-void	tokenize_shell(const char* input, char **tokens, s_tokens *cmd);
+void	tokenize_shell(const char* input, s_tokens **cmd);
+// for env struct
+s_env	*f_lstlast(s_env *lst);
+void	f_lstadd_back(s_env **lst, s_env *new);
+s_env	*f_lstnew(void);
+// for tokens struct
+s_tokens	*t_lstlast(s_tokens *lst);
+void	t_lstadd_back(s_tokens **lst, s_tokens *new);
+s_tokens	*t_lstnew(void);
 
 #endif
