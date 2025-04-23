@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/21 17:20:50 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:46:50 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 
 int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
-	int	j;
-
-	j = i;
 	if(str[i + 1] == '|')
 	{
 		//handle error
@@ -77,9 +74,6 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 
 int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && output
 {
-	int	j;
-
-	j = i;
 	if(str[i + 1] == '>')
 	{
 		(*cmd)->type = N_APPEND_SIGN;
@@ -96,9 +90,6 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 
 int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redirection && input
 {
-	int	j;
-
-	j = i;
 	if(str[i + 1] == '<')
 	{
 		(*cmd)->type = N_APPEND_SIGN;

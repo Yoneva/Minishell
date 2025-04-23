@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/21 17:38:23 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/04/22 13:53:18 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,18 @@ typedef struct f_tokens {
 
 int main(int ac, char **av, char **env);
 char	**count_malloc(char const *str);
-char	**ft_slit(char const *s, char c);
+char	**ft_split(char const *s, char c);
 
 void	*ft_realloc(void *str, size_t newsize);
 void	tokenize_shell(const char* input, s_tokens **cmd);
 // for env struct
 s_env	*f_lstlast(s_env *lst);
-void	f_lstadd_back(s_env **lst, s_env *new);
+void	f_lstadd_back(s_env **lst, s_env *new_node);
 s_env	*f_lstnew(void);
 // for tokens struct
 s_tokens	*t_lstlast(s_tokens *lst);
-void	t_lstadd_back(s_tokens **lst, s_tokens *new);
+void	t_lstadd_back(s_tokens **lst, s_tokens *new_node);
 s_tokens	*t_lstnew(void);
 
+void	fill_env_list(char **env, s_env **list);
 #endif
