@@ -45,6 +45,7 @@ typedef struct s_bdispatch {
 extern const t_bdispatch  g_builtins[];
 
 t_cmd *parse_cmd(s_tokens *tokens);
+// void exec_external(t_cmd *c, s_env **env, char **envp);
 int exec_single(t_cmd *c, s_env **env);
 char	**env_list_to_array(s_env *lst);
 void	free_strarray(char **arr);

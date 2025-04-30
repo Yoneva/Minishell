@@ -1,0 +1,16 @@
+#include "builtins.h"
+#include "../parssing/minishell.h"
+
+int bi_pwd(t_cmd *cmd, s_env **env)
+{
+    char *cwd;
+
+    (void)cmd;
+    (void)env;
+    cwd = getcwd(NULL, 0);
+    if (!cwd)
+        return (1);
+    ft_putendl_fd(cwd, STDOUT_FILENO);
+    free(cwd);
+    return (0);
+}

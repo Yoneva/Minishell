@@ -6,11 +6,12 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/21 20:46:50 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/04/24 13:29:24 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+void free_tokens(s_tokens *tok);
 
 int	single_quote(const char *str, int i, s_tokens **cmd)
 {
@@ -110,6 +111,8 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 	int	j = 0;
 	s_tokens *node;
 
+	if (!input)
+		return ;
 	while (input[i])
 	{
 		if (input[i] == '\'')

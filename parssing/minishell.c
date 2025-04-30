@@ -6,12 +6,16 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/23 12:08:01 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/04/24 22:35:45 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../exec/exec.h"
+
+void free_env_list(s_env *env);
+void free_tokens(s_tokens *tok);
+void free_cmd(t_cmd *cmd);
 
 int	find_tosawi(char *str)
 {
@@ -65,52 +69,49 @@ int main(int ac, char **av, char **env)
 	s_env		*listed = NULL;
 	s_tokens	*tokens = NULL;
 	t_cmd		*commands;
-	
 	char *cmd;
-	cmd = readline(">> ");
+	
 	fill_env_list(env, &listed);
-	tokenize_shell(cmd,&tokens);
-	s_tokens *tmp = tokens;
-	while (tmp)
+	while (1)
 	{
-        printf("%d = %s\n", tmp->type, tmp->value);
-        tmp = tmp->next;
-	}
-	commands = parse_cmd(tokens);
-	if (!commands)
-	{
-        fprintf(stderr, "parse_commands: empty or malloc failure\n");
-        return (EXIT_FAILURE);
-	}
-	t_cmd *curr = commands;
-	while (curr)
-	{
-		int i = 0;
-		while (curr->argv && curr->argv[i])
+		cmd = readline(">> ");
+		tokenize_shell(cmd,&tokens);
+		s_tokens *tmp = tokens;
+		while (tmp)
 		{
-			// printf("arg=%d  =>  [%s] ", i, curr->argv[i]);
-			i++;
+			printf("%d = %s\n", tmp->type, tmp->value);
+			tmp = tmp->next;
 		}
-		printf("\n");
-		int j = 0;
-		while (j < curr->n_redir)
+		commands = parse_cmd(tokens);
+		if (!commands)
 		{
-			// printf("redir[%d]: type = %d, filename = %s\n",
-			// j, curr->redir[j].type, curr->redir[j].filename);
-			j++;
+			fprintf(stderr, "parse_commands: empty or malloc failure\n");
+			return (EXIT_FAILURE);
 		}
-		curr = curr->next;
+		t_cmd *curr = commands;
+		while (curr)
+		{
+			int i = 0;
+			while (curr->argv && curr->argv[i])
+			{
+				// printf("arg=%d  =>  [%s] ", i, curr->argv[i]);
+				i++;
+			}
+			printf("\n");
+			int j = 0;
+			while (j < curr->n_redir)
+			{
+				// printf("redir[%d]: type = %d, filename = %s\n",
+				// j, curr->redir[j].type, curr->redir[j].filename);
+				j++;
+			}
+			curr = curr->next;
+		}
+		exec_single(commands, &listed);
+		free_cmd(commands);
+		// free_tokens(tokens);
+		tokens = NULL;
 	}
-	int global_status;
-	global_status = exec_single(commands, &listed);
-	(void)global_status;
-	
-	// printf("%s\n", cmd);
-	// while(tokens)
-	// {
-	// 	printf("%d = %s\n", tokens->type, tokens->value);
-	// 	tokens = tokens->next;
-	// }
-	
+    free_env_list(listed);
 	return (0);
 }
