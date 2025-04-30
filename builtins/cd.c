@@ -10,7 +10,7 @@ int bi_cd(t_cmd *cmd, s_env **env)
     oldpwd = getcwd(NULL, 0);
     if (!cmd->argv[1] || !cmd->argv[1][0])
         target = getenv("HOME");
-    else if (!ft_strcmp(cmd->argv[1], target))
+    else if (!ft_strcmp(cmd->argv[1], "OLDPWD"))
         target = getenv("OLDPWD");
     else
         target = cmd->argv[1];
