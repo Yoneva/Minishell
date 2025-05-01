@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/24 22:35:45 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/01 17:48:45 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ void	fill_env_list(char **env, s_env **list)
 		tmp = find_tosawi(env[i]);
 		if (!tmp)
 		{
-			//handle failure
-			printf("apah! 7z9at eliya hna #1");
+			f_lstclear(list);
 			exit (0);
 		}
 		node = f_lstnew();
 		if (!node)
 		{
-			//handle failure
-			printf("apah! 7z9at eliya hna #2");
+			f_lstclear(list);
 			exit(0);
 		}
 		node->data = ft_substr(env[i],0, tmp);
@@ -75,7 +73,11 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		cmd = readline(">> ");
-		tokenize_shell(cmd,&tokens);
+		if (cmd[0] == 0)
+		{
+			free (cmd);
+			continue ;
+		}
 		s_tokens *tmp = tokens;
 		while (tmp)
 		{

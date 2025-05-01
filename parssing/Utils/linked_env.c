@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/22 03:40:46 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/04/30 17:44:02 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,21 @@ void	f_lstadd_back(s_env **lst, s_env *new_node)
 	g->next = new_node;
 }
 
-// void	f_lstclear(s_env **lst, void (*del)(void*))
-// {
-// 	s_env	*next;
-// 	s_env	*current;
+void	f_lstclear(s_env **lst)
+{
+	s_env	*next;
+	s_env	*current;
 
-// 	if (!lst || !del)
-// 		return ;
-// 	current = *lst;
-// 	while (current)
-// 	{
-// 		next = current->next;
-// 		// del(current->content);
-// 		free(current);
-// 		current = next;
-// 	}
-// 	*lst = NULL;
-// }
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current->data);
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}

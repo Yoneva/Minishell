@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/24 13:29:24 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/01 17:38:14 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	single_quote(const char *str, int i, s_tokens **cmd)
 			break ;
 		else if(str[i + 1] == 0 && str[i] != '\'')
 		{
-			//handle error
-			printf("uhhh trallallero trallalla :3\n");
-			exit(0);
+			return (-1);
 		}
 		i++;
 	}
@@ -47,9 +45,7 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 			break ;
 		else if(str[i + 1] == 0 && str[i] != '\'')
 		{
-			//handle error
-			printf("uhhh trallallero trallalla :3\n");
-			exit(0);
+			return (-1);
 		}
 		i++;
 	}
@@ -61,9 +57,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
 	if(str[i + 1] == '|')
 	{
-		//handle error
-		printf("syntax error !!! (im not required to handle '||')\n");
-		exit(0);
+		return (-1);
 	}
 	else
 	{
@@ -105,7 +99,7 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 	return (i + 1);
 }
 
-void	tokenize_shell(const char* input, s_tokens **cmd)
+void	tokenize_shell(char* input, s_tokens **cmd)
 {
 	int	i = 0;
 	int	j = 0;
@@ -119,12 +113,22 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 		{
 			node = t_lstnew();
 			i = single_quote(input, i + 1, &node); // +1 to skip quote
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				free(input);
+			}
 			t_lstadd_back(cmd,node);
 		}
 		else if (input[i] == '"')
 		{
 			node = t_lstnew();
 			i = double_quote(input, i + 1, &node); // +1 to skip quote
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				free(input);
+			}
 			t_lstadd_back(cmd,node);
 		}
 		else if (input[i] == '|')
@@ -154,7 +158,7 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 		{
 			node = t_lstnew();
 			j = i;
-			while(input[i] && input[i] != ' ')
+			while(input[i] && (input[i] != ' ' || input[i] != '\t'))
 			{
 				i++;
 			}
@@ -167,7 +171,7 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 
 // int main()
 // {
-//     const char *input = "echo \"hello world\" | grep 'world' > output.txt";
+//     char *input = "ls";
 //     s_tokens *cmd = NULL;
 
 //     tokenize_shell(input, &cmd);
