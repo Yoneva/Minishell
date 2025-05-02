@@ -3,8 +3,8 @@
 #include "../parssing/minishell.h"
 
 s_env    *g_env_list = NULL;
-s_tokens *g_tokens = NULL;
-t_cmd    *g_cmds = NULL;
+s_tokens *g_tokens   = NULL;
+t_cmd    *g_cmds     = NULL;
 
 void free_env_list(s_env *env)
 {
