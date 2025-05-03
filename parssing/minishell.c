@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/03 10:16:03 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/03 13:43:31 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ void	fill_env_list(char **env, s_env **list)
 		tmp = find_tosawi(env[i]);
 		if (!tmp)
 		{
-			//handle failure
 			f_lstclear(list);
 			exit (0);
 		}
 		node = f_lstnew();
 		if (!node)
 		{
-			//handle failure
 			f_lstclear(list);
 			exit(0);
 		}
@@ -82,6 +80,11 @@ int main(int ac, char **av, char **env)
 		cmd = readline(">> ");
 		tokenize_shell(cmd,&tokens);
 		s_tokens *tmp = tokens;
+		while (tmp)
+		{
+			printf("%d = %s\n", tmp->type, tmp->value);
+			tmp = tmp->next;
+		}
 		commands = parse_cmd(tokens);
 		if (!commands)
 		{
