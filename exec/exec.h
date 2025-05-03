@@ -3,17 +3,6 @@
 
 # include "../parssing/minishell.h"
 
-/* Builtin identifiers */
-enum e_builtin {
-    B_ECHO,
-    B_CD,
-    B_PWD,
-    B_EXPORT,
-    B_UNSET,
-    B_ENV,
-    B_EXIT
-};
-
 /* Single redirection descriptor */
 typedef struct s_redir
 {
@@ -32,22 +21,11 @@ typedef struct s_cmd
     struct s_cmd *next;  /* next command in pipeline */
 } t_cmd;
 
-/* Builtin function pointer */
-typedef int (*t_builtin_fn)(t_cmd *cmd, s_env **env);
-
-/* Dispatch table for builtins */
-typedef struct s_bdispatch {
-    char          *name;
-    t_builtin_fn   fn;
-}   t_bdispatch;
-
-/* External declaration of the builtin dispatch table */
-extern const t_bdispatch  g_builtins[];
-
 t_cmd *parse_cmd(s_tokens *tokens);
 // void exec_external(t_cmd *c, s_env **env, char **envp);
 int exec_single(t_cmd *c, s_env **env);
 char	**env_list_to_array(s_env *lst);
+int	apply_redirs(t_cmd *c);
 void	free_strarray(char **arr);
 int ft_strcmp(const char *s1, const char *s2);
 #endif /* EXEC_H */

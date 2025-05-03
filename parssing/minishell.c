@@ -6,18 +6,19 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/03 10:06:04 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/03 10:16:03 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../exec/exec.h"
+#include "../builtins/builtins.h"
 
 void free_env_list(s_env *env);
 void free_tokens(s_tokens *tok);
 void free_cmd(t_cmd *cmd);
 
-int	find_tosawi(char *str)
+static int	find_tosawi(char *str)
 {
 	int	i;
 
@@ -68,18 +69,17 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	s_env		*listed = NULL;
 	s_tokens	*tokens = NULL;
-	t_cmd		*commands;
+	t_cmd		*commands = NULL;
 	char *cmd;
-	
+
+	// g_env_list = NULL;
+	// g_tokens   = NULL;
+	// g_cmds     = NULL;
 	fill_env_list(env, &listed);
+	g_env_list = listed;
 	while (1)
 	{
 		cmd = readline(">> ");
-		if (cmd[0] == 0)
-		{
-			free (cmd);
-			continue ;
-		}
 		tokenize_shell(cmd,&tokens);
 		s_tokens *tmp = tokens;
 		commands = parse_cmd(tokens);
@@ -109,7 +109,7 @@ int main(int ac, char **av, char **env)
 		// }
 		exec_single(commands, &listed);
 		free_cmd(commands);
-		// free_tokens(tokens);
+		free_tokens(tokens);
 		tokens = NULL;
 	}
     free_env_list(listed);

@@ -6,9 +6,10 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/01 18:50:57 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/03 10:18:52 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -47,10 +48,10 @@ typedef struct f_tokens {
 }	s_tokens ; //this struct is used to tokenize the command elements
 
 int main(int ac, char **av, char **env);
-char	**count_malloc(char const *str);
+// char	**count_malloc(char const *str);
 char	**ft_split(char const *s, char c);
 
-void	*ft_realloc(void *str, size_t newsize);
+// void	*ft_realloc(void *str, size_t newsize);
 void	tokenize_shell(const char* input, s_tokens **cmd);
 // for env struct
 s_env	*f_lstlast(s_env *lst);

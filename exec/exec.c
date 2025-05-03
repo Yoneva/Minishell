@@ -45,7 +45,7 @@ int	exec_single(t_cmd *c, s_env **env)
 	int		status;
 	char	**envp;
 
-	if (c->builtin_id >= 0)                /* built‑in in parent               */
+	if (c->builtin_id >= 0 && c->n_redir == 0)                /* built‑in in parent               */
 		return (g_builtins[c->builtin_id].fn(c, env));
 	envp = env_list_to_array(*env);        /* convert once, reuse in child     */
 	if (!envp)
@@ -53,7 +53,10 @@ int	exec_single(t_cmd *c, s_env **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		// execve(c->argv[0], c->argv, envp); /* never returns on success          */
+		if (apply_redirs(c))
+			cleanup_and_exit(1);
+		if (c->builtin_id >= 0)
+			cleanup_and_exit(g_builtins[c->builtin_id].fn(c, env));
 		exec_external(c, env, envp);
 	}
 	free_strarray(envp);                   /* parent: we don’t need it anymore  */

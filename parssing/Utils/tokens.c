@@ -6,12 +6,11 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/24 13:29:24 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/01 18:28:50 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-void free_tokens(s_tokens *tok);
 
 int	single_quote(const char *str, int i, s_tokens **cmd)
 {
@@ -68,7 +67,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 	else
 	{
 		(*cmd)->type = N_PIPE;
-		(*cmd)->value = "|";
+		(*cmd)->value = ft_strdup("|");
 	}
 	return (i + 1);
 }
@@ -78,13 +77,13 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 	if(str[i + 1] == '>')
 	{
 		(*cmd)->type = N_APPEND_SIGN;
-		(*cmd)->value = ">>";
+		(*cmd)->value = ft_strdup(">>");
 		i++;
 	}
 	else
 	{
 		(*cmd)->type = N_OUTPUT_SIGN;
-		(*cmd)->value = ">";
+		(*cmd)->value = ft_strdup(">");
 	}
 	return (i + 1);
 }
@@ -93,14 +92,14 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 {
 	if(str[i + 1] == '<')
 	{
-		(*cmd)->type = N_APPEND_SIGN;
-		(*cmd)->value = "<<";
+		(*cmd)->type = N_HEREDOC_SIGN;
+		(*cmd)->value = ft_strdup("<<");
 		i++;
 	}
 	else
 	{
-		(*cmd)->type = N_OUTPUT_SIGN;
-		(*cmd)->value = "<";
+		(*cmd)->type = N_INPUT_SIGN;
+		(*cmd)->value = ft_strdup("<");
 	}
 	return (i + 1);
 }

@@ -10,8 +10,3 @@ const t_bdispatch g_builtins[] = {
     {"exit",   bi_exit},
     {NULL,     NULL}
 };
-
-int  builtin_dispatch(t_cmd *c, s_env **env)
-{
-    return g_builtins[c->builtin_id].fn(c, env);
-}
