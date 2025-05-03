@@ -2,7 +2,7 @@ CC = cc
 LIBFT = libft/libft.a
 LIBS = -lreadline -lcurses
 SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c parssing/Utils/linked_tokens.c exec/exec.c exec/parsing_cmds.c exec/env_list_to_array.c builtins/builtins.c builtins/echo.c builtins/pwd.c builtins/env.c builtins/exit.c builtins/cleanup.c builtins/unset.c builtins/export.c builtins/cd.c builtins/env_helpers.c
-HEADER = include/minishell.h libft/libft.h
+HEADER = include/minishell.h libft/libft.h exec/exec.h
 FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 OBJS = $(SRCS:.c=.o)
 NAME = Minishell

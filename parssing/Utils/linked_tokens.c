@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/22 03:41:35 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/01 18:51:18 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,20 @@ void	t_lstadd_back(s_tokens **lst, s_tokens *new_node)
 	g->next = new_node;
 }
 
-// void	f_lstclear(s_env **lst, void (*del)(void*))
-// {
-// 	s_env	*next;
-// 	s_env	*current;
+void	t_lstclear(s_tokens **lst)
+{
+	s_tokens	*next;
+	s_tokens	*current;
 
-// 	if (!lst || !del)
-// 		return ;
-// 	current = *lst;
-// 	while (current)
-// 	{
-// 		next = current->next;
-// 		// del(current->content);
-// 		free(current);
-// 		current = next;
-// 	}
-// 	*lst = NULL;
-// }
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}

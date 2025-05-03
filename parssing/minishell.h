@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/04/24 13:10:21 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/01 18:50:57 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ void	tokenize_shell(const char* input, s_tokens **cmd);
 s_env	*f_lstlast(s_env *lst);
 void	f_lstadd_back(s_env **lst, s_env *new_node);
 s_env	*f_lstnew(void);
+void		f_lstclear(s_env **lst);
 // for tokens struct
 s_tokens	*t_lstlast(s_tokens *lst);
 void	t_lstadd_back(s_tokens **lst, s_tokens *new_node);
 s_tokens	*t_lstnew(void);
+void		t_lstclear(s_tokens **lst);
 
 void	fill_env_list(char **env, s_env **list);
 #endif
