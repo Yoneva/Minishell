@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/04 16:50:27 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/04 19:01:29 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		cmd = readline(">> ");
+		if (cmd[0] == 0)
+		{
+			free(cmd);
+			continue;
+		}
 		tokenize_shell(cmd, &tokens, &listed);
 		s_tokens *tmp = tokens;
 		while (tmp)

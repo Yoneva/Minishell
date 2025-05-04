@@ -6,25 +6,11 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/04 18:48:31 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/04 20:04:52 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2)
-    {
-		if ((unsigned char)*s1 != (unsigned char)*s2)
-        {
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-        }
-        s1++;
-        s2++;
-    }
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
 
 int	single_quote(const char *str, int i, s_tokens **cmd)
 {
@@ -230,7 +216,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				i++;
 			}
 			node->type = N_WORD;
-			node->value = ft_substr(input, j, i - j);
+			node->value = substr_quotes(input, j, i - j, 0);
 			t_lstadd_back(cmd,node);
 		}
 	}
