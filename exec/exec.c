@@ -3,7 +3,7 @@
 #include "../parssing/minishell.h"
 #include <sys/wait.h>
 
-static void exec_external(t_cmd *c, s_env **env, char **envp)
+void exec_external(t_cmd *c, s_env **env, char **envp)
 {
 	int		i;
 	char	**paths;
