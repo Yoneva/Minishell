@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/01 18:28:50 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/04 18:48:31 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2)
+    {
+		if ((unsigned char)*s1 != (unsigned char)*s2)
+        {
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+        }
+        s1++;
+        s2++;
+    }
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
 
 int	single_quote(const char *str, int i, s_tokens **cmd)
 {
@@ -24,9 +38,7 @@ int	single_quote(const char *str, int i, s_tokens **cmd)
 			break ;
 		else if(str[i + 1] == 0 && str[i] != '\'')
 		{
-			//handle error
-			printf("uhhh trallallero trallalla :3\n");
-			exit(0);
+			return (-1);
 		}
 		i++;
 	}
@@ -46,9 +58,7 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 			break ;
 		else if(str[i + 1] == 0 && str[i] != '\'')
 		{
-			//handle error
-			printf("uhhh trallallero trallalla :3\n");
-			exit(0);
+			return (-1);
 		}
 		i++;
 	}
@@ -60,9 +70,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
 	if(str[i + 1] == '|')
 	{
-		//handle error
-		printf("syntax error !!! (im not required to handle '||')\n");
-		exit(0);
+		return (-1);
 	}
 	else
 	{
@@ -104,32 +112,83 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 	return (i + 1);
 }
 
-void	tokenize_shell(const char* input, s_tokens **cmd)
+int	if_envariable(char *input, int i, s_tokens **cmd, s_env **env)
+{
+	int len;
+	char *str;
+	s_env *tmp;
+	
+	tmp = *env;
+	len = i;
+	i += 1;
+	(*cmd)->type = N_WORD;
+	while (input[len] && input[len] != ' ')
+	{
+		len++;
+	}
+	str = ft_substr((input + i), 0, len);
+	while (tmp)
+	{
+		if(ft_strcmp(str, tmp->data) == 0)
+			(*cmd)->value = tmp->value;
+		tmp = tmp->next;
+	}
+	if (env == NULL)
+		return (-1);
+	return (len);
+}
+void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
 	int	i = 0;
 	int	j = 0;
 	s_tokens *node;
 
 	if (!input)
-		return ;
+	{
+		t_lstclear(cmd);
+		f_lstclear(listed);
+		free(input);
+		exit (0);
+	}
 	while (input[i])
 	{
 		if (input[i] == '\'')
 		{
 			node = t_lstnew();
 			i = single_quote(input, i + 1, &node); // +1 to skip quote
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				f_lstclear(listed);
+				free(input);
+				exit (0);
+			}
 			t_lstadd_back(cmd,node);
 		}
 		else if (input[i] == '"')
 		{
 			node = t_lstnew();
 			i = double_quote(input, i + 1, &node); // +1 to skip quote
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				f_lstclear(listed);
+				free(input);
+				exit (0);
+			}
 			t_lstadd_back(cmd,node);
 		}
 		else if (input[i] == '|')
 		{
 			node = t_lstnew();
 			i = pipes(input, i, &node);
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				f_lstclear(listed);
+				free(input);
+				exit (0);
+			}
 			t_lstadd_back(cmd,node);
 		}
 		else if (input[i] == '<')
@@ -144,6 +203,19 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 			i = redirections1(input, i, &node);
 			t_lstadd_back(cmd,node);
 		}
+		else if (input[i] == '$')
+		{
+			node = t_lstnew();
+			i = if_envariable(input, i, &node, listed);
+			if(i == -1)
+			{
+				t_lstclear(cmd);
+				f_lstclear(listed);
+				free(input);
+				exit (0);
+			}
+			t_lstadd_back(cmd,node);
+		}
 		else if(input[i] == ' ')
 		{
 			i++;
@@ -153,7 +225,7 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 		{
 			node = t_lstnew();
 			j = i;
-			while(input[i] && input[i] != ' ')
+			while(input[i] && (input[i] != ' ' && input[i] != '\t'))
 			{
 				i++;
 			}
@@ -166,15 +238,23 @@ void	tokenize_shell(const char* input, s_tokens **cmd)
 
 // int main()
 // {
-//     const char *input = "echo \"hello world\" | grep 'world' > output.txt";
+//     char *input = "ls hh $amal";
 //     s_tokens *cmd = NULL;
 
-//     tokenize_shell(input, &cmd);
+//     // Allocate memory
+//     s_env *hh = malloc(sizeof(s_env));
+//     hh->data = ft_strdup("amal");
+//     hh->value = ft_strdup("nadya bzf");
+//     hh->next = NULL;
+
+//     tokenize_shell(input, &cmd, &hh);
+
 //     s_tokens *curr = cmd;
 //     while (curr)
 //     {
 //         printf("Token Type: %d\tValue: [%s]\n", curr->type, curr->value);
 //         curr = curr->next;
 //     }
+
 //     return 0;
 // }
