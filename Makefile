@@ -1,7 +1,7 @@
 CC = cc
 LIBFT = libft/libft.a
 LIBS = -lreadline -lcurses
-SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c parssing/Utils/linked_tokens.c exec/exec.c exec/parsing_cmds.c exec/env_list_to_array.c exec/redirs_utils.c builtins/builtins.c builtins/echo.c builtins/pwd.c builtins/env.c builtins/exit.c builtins/cleanup.c builtins/unset.c builtins/export.c builtins/cd.c builtins/env_helpers.c
+SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c parssing/Utils/linked_tokens.c exec/exec.c exec/parsing_cmds.c exec/env_list_to_array.c exec/redirs_utils.c exec/exec_pipeline.c exec/pipe_utils.c builtins/builtins.c builtins/echo.c builtins/pwd.c builtins/env.c builtins/exit.c builtins/cleanup.c builtins/unset.c builtins/export.c builtins/cd.c builtins/env_helpers.c
 HEADER = parssing/minishell.h libft/libft.h exec/exec.h builtins/builtins.h
 FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 OBJS = $(SRCS:.c=.o)

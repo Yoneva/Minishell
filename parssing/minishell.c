@@ -6,7 +6,7 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/01 18:21:09 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/03 17:47:44 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ int main(int ac, char **av, char **env)
 	t_cmd		*commands = NULL;
 	char *cmd;
 
-	// g_env_list = NULL;
-	// g_tokens   = NULL;
-	// g_cmds     = NULL;
 	fill_env_list(env, &listed);
 	g_env_list = listed;
 	while (1)
@@ -117,7 +114,10 @@ int main(int ac, char **av, char **env)
 			}
 			curr = curr->next;
 		}
-		exec_single(commands, &listed);
+		if (commands->next)
+			exec_pipeline(commands, &listed);
+		else
+			exec_single(commands, &listed);
 		free_cmd(commands);
 		free_tokens(tokens);
 		tokens = NULL;
