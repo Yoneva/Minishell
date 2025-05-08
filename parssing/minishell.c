@@ -6,7 +6,7 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/04 19:57:01 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/05 19:45:10 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,20 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		cmd = readline(">> ");
+		if (!cmd)
+			break;
+		if (*cmd == '\0')
+		{
+			free(cmd);
+			continue;
+		}
+		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
+		if (!tokens)
+		{
+			free(cmd);
+			continue;
+		}
 		s_tokens *tmp = tokens;
 		while (tmp)
 		{
@@ -86,7 +99,9 @@ int main(int ac, char **av, char **env)
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
-			return (EXIT_FAILURE);
+			free_tokens(tokens);
+			free(cmd);
+			continue;
 		}
 		t_cmd *curr = commands;
 		while (curr)
