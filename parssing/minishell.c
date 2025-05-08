@@ -6,17 +6,13 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/05 19:45:10 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/08 16:06:14 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../exec/exec.h"
 #include "../builtins/builtins.h"
-
-void free_env_list(s_env *env);
-void free_tokens(s_tokens *tok);
-void free_cmd(t_cmd *cmd);
 
 static int	find_tosawi(char *str)
 {
