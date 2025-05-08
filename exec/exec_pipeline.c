@@ -28,7 +28,6 @@ static void execute_command(t_cmd *cmd, s_env **env)
     
     char **envp = env_list_to_array(*env);
     exec_external(cmd, env, envp);
-    perror(cmd->argv[0]);
     exit(127);
 }
 
