@@ -58,6 +58,7 @@ void free_cmd(t_cmd *cmd)
 
 void cleanup_and_exit(int code)
 {
+    rl_clear_history();
     free_cmd(g_cmds);
     free_tokens(g_tokens);
     free_env_list(g_env_list);
