@@ -6,7 +6,7 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/08 16:06:14 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/10 23:04:28 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int main(int ac, char **av, char **env)
 		s_tokens *tmp = tokens;
 		while (tmp)
 		{
-			printf("%d = %s\n", tmp->type, tmp->value);
+			// printf("%d = %s\n", tmp->type, tmp->value);
 			tmp = tmp->next;
 		}
 		commands = parse_cmd(tokens);
@@ -126,6 +126,7 @@ int main(int ac, char **av, char **env)
 		free_tokens(tokens);
 		tokens = NULL;
 	}
+	rl_clear_history();
     free_env_list(listed);
 	return (0);
 }
