@@ -35,4 +35,5 @@ void	close_all_pipes(int n, int p[][2]);
 int	 exec_pipeline(t_cmd *first, s_env **env);
 void	free_strarray(char **arr);
 int ft_strcmp(const char *s1, const char *s2);
+int     get_heredoc_fd(const char *limiter);
 #endif /* EXEC_H */
