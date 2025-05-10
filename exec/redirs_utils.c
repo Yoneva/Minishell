@@ -12,7 +12,9 @@ int	apply_redirs(t_cmd *c)
     i = 0;
     while (i < c->n_redir)
     {
-        if (c->redir[i].type == N_OUTPUT_SIGN)
+        if (c->redir[i].type == N_HEREDOC_SIGN)
+            fd = get_heredoc_fd(c->redir[i].filename);
+        else if (c->redir[i].type == N_OUTPUT_SIGN)
             fd = open(c->redir[i].filename, O_CREAT | O_TRUNC | O_WRONLY | 0644);
         else if (c->redir[i].type == N_APPEND_SIGN)
             fd = open(c->redir[i].filename, O_CREAT | O_APPEND | O_WRONLY, 0644);
@@ -20,7 +22,8 @@ int	apply_redirs(t_cmd *c)
             fd = open(c->redir[i].filename, O_RDONLY);
         else
             fd = -1;
-        if (c->redir[i].type == N_INPUT_SIGN)
+        if (c->redir[i].type == N_INPUT_SIGN
+            || c->redir[i].type == N_HEREDOC_SIGN)
             target_fd = STDIN_FILENO;
         else
             target_fd = STDOUT_FILENO;
