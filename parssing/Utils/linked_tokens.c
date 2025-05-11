@@ -6,13 +6,13 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/03 13:41:27 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/08 15:19:51 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_tokens	*t_lstnew(void)
+s_tokens	*ft_tokenew(void)
 {
 	s_tokens	*node;
 
@@ -23,7 +23,7 @@ s_tokens	*t_lstnew(void)
 	return (node);
 }
 
-s_tokens	*t_lstlast(s_tokens *lst)
+s_tokens	*ft_tokenlast(s_tokens *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -34,7 +34,7 @@ s_tokens	*t_lstlast(s_tokens *lst)
 	return (lst);
 }
 
-void	t_lstadd_back(s_tokens **lst, s_tokens *new_node)
+void	ft_tokenadd_back(s_tokens **lst, s_tokens *new_node)
 {
 	s_tokens	*g;
 
@@ -45,11 +45,11 @@ void	t_lstadd_back(s_tokens **lst, s_tokens *new_node)
 		*lst = new_node;
 		return ;
 	}
-	g = t_lstlast(*lst);
+	g = ft_tokenlast(*lst);
 	g->next = new_node;
 }
 
-void	t_lstclear(s_tokens **lst)
+void	ft_tokensclear(s_tokens **lst)
 {
 	s_tokens	*next;
 	s_tokens	*current;

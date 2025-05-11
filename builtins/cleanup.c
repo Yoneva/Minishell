@@ -2,65 +2,38 @@
 #include "../exec/exec.h"
 #include "../parssing/minishell.h"
 
-s_env    *g_env_list = NULL;
-s_tokens *g_tokens   = NULL;
-t_cmd    *g_cmds     = NULL;
-
-void free_env_list(s_env *env)
-{
-    s_env *next;
-
-    while (env)
-    {
-        next = env->next;
-        free(env->data);
-        free(env->value);
-        free(env);
-        env = next;
-    }
-}
-
-void free_tokens(s_tokens *tok)
-{
-    s_tokens *next;
-    while (tok)
-    {
-        next = tok->next;
-        free(tok->value);
-        free(tok);
-        tok = next;
-    }
-}
-
-void free_cmd(t_cmd *cmd)
+void free_cmd(t_cmd **cmd)
 {
     t_cmd   *next;
     int     i;
 
-    while (cmd)
+    if (!cmd)  // Check if the pointer to pointer is NULL
+        return;
+
+    while (*cmd)  // Check if the actual command pointer is NULL
     {
-        next = cmd->next;
+        next = (*cmd)->next;
         i = 0;
-        while (cmd->argv && cmd->argv[i])
-            free(cmd->argv[i++]);
-        free(cmd->argv);
+        while ((*cmd)->argv && (*cmd)->argv[i])
+            free((*cmd)->argv[i++]);
+        free((*cmd)->argv);
         i = 0;
-        while (i < cmd->n_redir)
+        while (i < (*cmd)->n_redir)
         {
-            free(cmd->redir[i].filename);
+            free((*cmd)->redir[i].filename);
             i++;
         }
-        free(cmd->redir);
-        free(cmd);
-        cmd = next;
+        free((*cmd)->redir);
+        free(*cmd);  // Free the actual command structure
+        
+        *cmd = next;
     }
 }
 
-void cleanup_and_exit(int code)
+void cleanup_and_exit(s_env **env, s_tokens **tokens, t_cmd **cmd, int n)
 {
-    rl_clear_history();
-    free_cmd(g_cmds);
-    free_tokens(g_tokens);
-    free_env_list(g_env_list);
-    exit(code);
+    free_cmd(cmd);
+    ft_tokensclear(tokens);
+    ft_envclear(env);
+    exit (n);
 }
