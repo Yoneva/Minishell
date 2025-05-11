@@ -44,7 +44,10 @@ int	exec_single(t_cmd **c, s_env **env, s_tokens **tokens)
 	char	**envp;
 
 	if ((*c)->builtin_id >= 0 && (*c)->n_redir == 0)                /* built‑in in parent               */
+	{
+		apply_redirs(c);
 		return (g_builtins[(*c)->builtin_id].fn(*c, env));
+	}
 	envp = env_list_to_array(*env);        /* convert once, reuse in child     */
 	if (!envp)
 		return (1);
