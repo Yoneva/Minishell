@@ -1,11 +1,12 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
+
 # include "../exec/exec.h"
 # include "../parssing/minishell.h"
 
-extern s_env    *g_env_list;
-extern s_tokens *g_tokens;
-extern t_cmd    *g_cmds;
+// extern s_env    *g_env_list;
+// extern s_tokens *g_tokens;
+// extern t_cmd    *g_cmds;
 
 /* Builtin function pointer */
 typedef int (*t_builtin_fn)(t_cmd *cmd, s_env **env);
@@ -19,18 +20,16 @@ typedef struct s_bdispatch {
 /* External declaration of the builtin dispatch table */
 extern const t_bdispatch  g_builtins[];
 
-int   bi_echo(t_cmd *c, s_env **env);
-int   bi_cd(t_cmd *c, s_env **env);
-int   bi_pwd(t_cmd *c, s_env **env);
-int   bi_export(t_cmd *c, s_env **env);
-int   bi_unset(t_cmd *c, s_env **env);
-int   bi_env(t_cmd *c, s_env **env);
-int   bi_exit(t_cmd *c, s_env **env);
+int	bi_echo(t_cmd *c, s_env **env);
+int	bi_cd(t_cmd *c, s_env **env);
+int	bi_pwd(t_cmd *c, s_env **env);
+int	bi_export(t_cmd *c, s_env **env);
+int	bi_unset(t_cmd *c, s_env **env);
+int	bi_env(t_cmd *c, s_env **env);
+int	bi_exit(t_cmd *c, s_env **env);
 
-void free_env_list(s_env *env);
-void free_tokens(s_tokens *tok);
-void free_cmd(t_cmd *cmd);
-void cleanup_and_exit(int code);
+void free_cmd(t_cmd **cmd);
+void cleanup_and_exit(s_env **env, s_tokens **tokens, t_cmd **cmd, int n);
 s_env *find_env_node(s_env *env, const char *key);
 void set_env_var(s_env **env, const char *k, const char *v);
 void unset_env_var(s_env **env, const char *key);

@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/04 20:04:52 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/08 15:19:51 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 
 	if (!input)
 	{
-		t_lstclear(cmd);
-		f_lstclear(listed);
+		ft_tokensclear(cmd);
+		ft_envclear(listed);
 		free(input);
 		exit (0);
 	}
@@ -140,67 +140,67 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 	{
 		if (input[i] == '\'')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = single_quote(input, i + 1, &node); // +1 to skip quote
 			if(i == -1)
 			{
-				t_lstclear(cmd);
-				f_lstclear(listed);
+				ft_tokensclear(cmd);
+				ft_envclear(listed);
 				free(input);
 				exit (0);
 			}
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if (input[i] == '"')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = double_quote(input, i + 1, &node); // +1 to skip quote
 			if(i == -1)
 			{
-				t_lstclear(cmd);
-				f_lstclear(listed);
+				ft_tokensclear(cmd);
+				ft_envclear(listed);
 				free(input);
 				exit (0);
 			}
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if (input[i] == '|')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = pipes(input, i, &node);
 			if(i == -1)
 			{
-				t_lstclear(cmd);
-				f_lstclear(listed);
+				ft_tokensclear(cmd);
+				ft_envclear(listed);
 				free(input);
 				exit (0);
 			}
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if (input[i] == '<')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = redirections2(input, i, &node);
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if (input[i] == '>')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = redirections1(input, i, &node);
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if (input[i] == '$')
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			i = if_envariable(input, i, &node, listed);
 			if(i == -1)
 			{
-				t_lstclear(cmd);
-				f_lstclear(listed);
+				ft_tokensclear(cmd);
+				ft_envclear(listed);
 				free(input);
 				exit (0);
 			}
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 		else if(input[i] == ' ')
 		{
@@ -209,7 +209,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		}
 		else
 		{
-			node = t_lstnew();
+			node = ft_tokenew();
 			j = i;
 			while(input[i] && (input[i] != ' ' && input[i] != '\t'))
 			{
@@ -217,7 +217,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 			}
 			node->type = N_WORD;
 			node->value = substr_quotes(input, j, i - j, 0);
-			t_lstadd_back(cmd,node);
+			ft_tokenadd_back(cmd,node);
 		}
 	}
 }

@@ -24,10 +24,10 @@ void set_env_var(s_env **env, const char *k, const char *v)
     }
     else
     {
-        s_env *new = f_lstnew();
+        s_env *new = ft_envnew();
         new->data = ft_strdup(k);
         new->value = ft_strdup(v);
-        f_lstadd_back(env, new);
+        ft_envadd_back(env, new);
     }
 }
 

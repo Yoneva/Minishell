@@ -6,17 +6,13 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/04 19:01:29 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/11 13:49:44 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../exec/exec.h"
 #include "../builtins/builtins.h"
-
-void free_env_list(s_env *env);
-void free_tokens(s_tokens *tok);
-void free_cmd(t_cmd *cmd);
 
 static int	find_tosawi(char *str)
 {
@@ -44,18 +40,18 @@ void	fill_env_list(char **env, s_env **list)
 		tmp = find_tosawi(env[i]);
 		if (!tmp)
 		{
-			f_lstclear(list);
+			ft_envclear(list);
 			exit (0);
 		}
-		node = f_lstnew();
+		node = ft_envnew();
 		if (!node)
 		{
-			f_lstclear(list);
+			ft_envclear(list);
 			exit(0);
 		}
 		node->data = ft_substr(env[i],0, tmp);
 		node->value = ft_substr(env[i],tmp + 1, ft_strlen(env[i]) - tmp);
-		f_lstadd_back(list, node);
+		ft_envadd_back(list, node);
 		node = node->next;
 		i++;
 	}
@@ -65,16 +61,16 @@ int main(int ac, char **av, char **env)
 {
 	(void)av;
 	(void)ac;
-	s_env		*listed = NULL;
-	s_tokens	*tokens = NULL;
-	t_cmd		*commands = NULL;
+	s_env		*listed;
+	s_tokens	*tokens;
+	t_cmd		*commands ;
 	char *cmd;
 
-	// g_env_list = NULL;
-	// g_tokens   = NULL;
-	// g_cmds     = NULL;
+	listed = NULL;
+	tokens = NULL;
+	commands = NULL;
 	fill_env_list(env, &listed);
-	g_env_list = listed;
+	// g_env_list = listed;
 	while (1)
 	{
 		cmd = readline(">> ");
@@ -84,12 +80,12 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		tokenize_shell(cmd, &tokens, &listed);
-		s_tokens *tmp = tokens;
-		while (tmp)
-		{
-			printf("%d = %s\n", tmp->type, tmp->value);
-			tmp = tmp->next;
-		}
+		// s_tokens *tmp = tokens;
+		// while (tmp)
+		// {
+		// 	printf("%d = %s\n", tmp->type, tmp->value);
+		// 	tmp = tmp->next;
+		// }
 		commands = parse_cmd(tokens);
 		if (!commands)
 		{
@@ -105,7 +101,7 @@ int main(int ac, char **av, char **env)
 				// printf("arg=%d  =>  [%s] ", i, curr->argv[i]);
 				i++;
 			}
-			printf("\n");
+			// printf("\n");
 			int j = 0;
 			while (j < curr->n_redir)
 			{
@@ -115,11 +111,11 @@ int main(int ac, char **av, char **env)
 			}
 			curr = curr->next;
 		}
-		exec_single(commands, &listed);
-		free_cmd(commands);
-		free_tokens(tokens);
+		exec_single(&commands, &listed, &tokens);
+		free_cmd(&commands);
+		ft_tokensclear(&tokens);
 		tokens = NULL;
 	}
-    free_env_list(listed);
+   ft_envclear(&listed);
 	return (0);
 }
