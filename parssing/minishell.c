@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
 /*   Updated: 2025/05/11 13:49:44 by amsbai           ###   ########.fr       */
@@ -74,10 +74,25 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		cmd = readline(">> ");
-		if (cmd[0] == 0)
+		if (!cmd)
+			break;
+		if (*cmd == '\0')
 		{
 			free(cmd);
 			continue;
+		}
+		add_history(cmd);
+		tokenize_shell(cmd, &tokens, &listed);
+		if (!tokens)
+		{
+			free(cmd);
+			continue;
+		}
+		s_tokens *tmp = tokens;
+		while (tmp)
+		{
+			// printf("%d = %s\n", tmp->type, tmp->value);
+			tmp = tmp->next;
 		}
 		tokenize_shell(cmd, &tokens, &listed);
 		// s_tokens *tmp = tokens;
@@ -90,7 +105,9 @@ int main(int ac, char **av, char **env)
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
-			return (EXIT_FAILURE);
+			free_tokens(tokens);
+			free(cmd);
+			continue;
 		}
 		t_cmd *curr = commands;
 		while (curr)
@@ -111,11 +128,15 @@ int main(int ac, char **av, char **env)
 			}
 			curr = curr->next;
 		}
-		exec_single(&commands, &listed, &tokens);
+		if (commands->next)
+			exec_pipeline(&commands, &listed, &tokens);
+		else
+			exec_single(commands, &listed);
 		free_cmd(&commands);
 		ft_tokensclear(&tokens);
 		tokens = NULL;
 	}
-   ft_envclear(&listed);
+	  ft_envclear(&listed);
+    free_env_list(listed);
 	return (0);
 }
