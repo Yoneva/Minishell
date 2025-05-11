@@ -40,18 +40,18 @@ void	fill_env_list(char **env, s_env **list)
 		tmp = find_tosawi(env[i]);
 		if (!tmp)
 		{
-			f_lstclear(list);
+			ft_envclear(list);
 			exit (0);
 		}
-		node = f_lstnew();
+		node = ft_envnew();
 		if (!node)
 		{
-			f_lstclear(list);
+			ft_envclear(list);
 			exit(0);
 		}
 		node->data = ft_substr(env[i],0, tmp);
 		node->value = ft_substr(env[i],tmp + 1, ft_strlen(env[i]) - tmp);
-		f_lstadd_back(list, node);
+		ft_envadd_back(list, node);
 		node = node->next;
 		i++;
 	}
@@ -61,13 +61,16 @@ int main(int ac, char **av, char **env)
 {
 	(void)av;
 	(void)ac;
-	s_env		*listed = NULL;
-	s_tokens	*tokens = NULL;
-	t_cmd		*commands = NULL;
+	s_env		*listed;
+	s_tokens	*tokens;
+	t_cmd		*commands ;
 	char *cmd;
 
+	listed = NULL;
+	tokens = NULL;
+	commands = NULL;
 	fill_env_list(env, &listed);
-	g_env_list = listed;
+	// g_env_list = listed;
 	while (1)
 	{
 		cmd = readline(">> ");
@@ -91,6 +94,13 @@ int main(int ac, char **av, char **env)
 			// printf("%d = %s\n", tmp->type, tmp->value);
 			tmp = tmp->next;
 		}
+		tokenize_shell(cmd, &tokens, &listed);
+		// s_tokens *tmp = tokens;
+		// while (tmp)
+		// {
+		// 	printf("%d = %s\n", tmp->type, tmp->value);
+		// 	tmp = tmp->next;
+		// }
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)
@@ -109,7 +119,7 @@ int main(int ac, char **av, char **env)
 				// printf("arg=%d  =>  [%s] ", i, curr->argv[i]);
 				i++;
 			}
-			printf("\n");
+			// printf("\n");
 			int j = 0;
 			while (j < curr->n_redir)
 			{
@@ -120,14 +130,14 @@ int main(int ac, char **av, char **env)
 			curr = curr->next;
 		}
 		if (commands->next)
-			exec_pipeline(commands, &listed);
+			exec_pipeline(&commands, &listed, &tokens);
 		else
 			exec_single(commands, &listed);
-		free_cmd(commands);
-		free_tokens(tokens);
+		free_cmd(&commands);
+		ft_tokensclear(&tokens);
 		tokens = NULL;
 	}
-	rl_clear_history();
+	  ft_envclear(&listed);
     free_env_list(listed);
 	return (0);
 }

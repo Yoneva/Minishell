@@ -6,13 +6,13 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/03 13:41:35 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/08 15:18:14 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_env	*f_lstnew(void)
+s_env	*ft_envnew(void)
 {
 	s_env	*node;
 
@@ -23,7 +23,7 @@ s_env	*f_lstnew(void)
 	return (node);
 }
 
-s_env	*f_lstlast(s_env *lst)
+s_env	*ft_envlast(s_env *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -34,7 +34,7 @@ s_env	*f_lstlast(s_env *lst)
 	return (lst);
 }
 
-void	f_lstadd_back(s_env **lst, s_env *new_node)
+void	ft_envadd_back(s_env **lst, s_env *new_node)
 {
 	s_env	*g;
 
@@ -45,11 +45,11 @@ void	f_lstadd_back(s_env **lst, s_env *new_node)
 		*lst = new_node;
 		return ;
 	}
-	g = f_lstlast(*lst);
+	g = ft_envlast(*lst);
 	g->next = new_node;
 }
 
-void	f_lstclear(s_env **lst)
+void	ft_envclear(s_env **lst)
 {
 	s_env	*next;
 	s_env	*current;

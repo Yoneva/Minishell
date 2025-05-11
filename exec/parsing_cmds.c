@@ -1,6 +1,5 @@
-#include "../parssing/minishell.h"
-#include "../builtins/builtins.h"
 #include "exec.h"
+#include "../builtins/builtins.h"
 
 static int  is_redir(int sign)
 {
@@ -59,13 +58,14 @@ static void init_cmd_struct(t_cmd *cmd, int argc, int rcount)
     cmd->next = NULL;
 }
 
-
 static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
 {
     int args_i;
     int redirs_i;
     s_tokens *tok;
 
+	if (!tokp)
+		return ; // to be handled
     tok = *tokp;
     args_i = 0;
     redirs_i = 0;
