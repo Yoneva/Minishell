@@ -6,7 +6,7 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/11 13:49:44 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/11 15:08:05 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,15 @@ int main(int ac, char **av, char **env)
 		// 	tmp = tmp->next;
 		// }
 		commands = parse_cmd(tokens);
+		free(cmd);
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
 			free_tokens(tokens);
-			free(cmd);
 			continue;
 		}
 		t_cmd *curr = commands;
+		// call function handel herdocument
 		while (curr)
 		{
 			int i = 0;
