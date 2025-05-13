@@ -86,6 +86,7 @@ int main(int ac, char **av, char **env)
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
 		commands = parse_cmd(tokens);
+		free(cmd);
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
@@ -94,6 +95,7 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		t_cmd *curr = commands;
+		// call function handel herdocument
 		while (curr)
 		{
 			int i = 0;
