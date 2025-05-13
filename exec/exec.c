@@ -1,7 +1,7 @@
 #include "exec.h"
 #include "../builtins/builtins.h"
 
-void	exec_external(t_cmd **c, s_env **env, char **envp, s_tokens **tokens)
+void	exec_external(t_cmd **c, s_env **env, char **envp)
 {
 	int		i;
 	char	**paths;
@@ -19,7 +19,7 @@ void	exec_external(t_cmd **c, s_env **env, char **envp, s_tokens **tokens)
 		path_val = "";
 	paths = ft_split(path_val, ':');
 	if (!paths)
-		cleanup_and_exit(env, tokens, c, 1);
+		cleanup_and_exit(env, c, 1);
 	i = 0;
 	while (paths[i])
 	{
@@ -34,10 +34,10 @@ void	exec_external(t_cmd **c, s_env **env, char **envp, s_tokens **tokens)
 	execve((*c)->argv[0], (*c)->argv, envp);
 	perror((*c)->argv[0]);
 	free_strarray(envp);
-	cleanup_and_exit(env, tokens, c, 127);
+	cleanup_and_exit(env, c, 127);
 }
 
-int	exec_single(t_cmd **c, s_env **env, s_tokens **tokens)
+int	exec_single(t_cmd **c, s_env **env)
 {
 	pid_t	pid;
 	int		status;
@@ -55,13 +55,10 @@ int	exec_single(t_cmd **c, s_env **env, s_tokens **tokens)
 	if (pid == 0)
 	{
 		if (apply_redirs(*c))
-			cleanup_and_exit(env, tokens, c, 1);
+			cleanup_and_exit(env, c,1);
 		if ((*c)->builtin_id >= 0)
-		{
-			(*env)->tmp = &tokens;
-			cleanup_and_exit(env, tokens, c, g_builtins[(*c)->builtin_id].fn(*c, env));
-		}
-		exec_external(c, env, envp, tokens);
+			cleanup_and_exit(env, c, g_builtins[(*c)->builtin_id].fn(*c, env));
+		exec_external(c, env, envp);
 	}
 	free_strarray(envp);                   /* parent: we don’t need it anymore  */
 	waitpid(pid, &status, 0);

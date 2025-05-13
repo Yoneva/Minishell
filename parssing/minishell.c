@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/13 14:04:46 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:57:57 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,16 @@ int main(int ac, char **av, char **env)
 	tokens = NULL;
 	commands = NULL;
 	fill_env_list(env, &listed);
-	// g_env_list = listed;
 	while (1)
 	{
 		cmd = readline(">> ");
+		if (!cmd)
+			break;
 		if (cmd[0] == 0)
 		{
 			free(cmd);
 			continue;
 		}
-		if (!cmd)
-			break;
 		if (*cmd == '\0')
 		{
 			free(cmd);
@@ -86,12 +85,6 @@ int main(int ac, char **av, char **env)
 		}
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
-		// s_tokens *tmp = tokens;
-		// while (tmp)
-		// {
-		// 	printf("%d = %s\n", tmp->type, tmp->value);
-		// 	tmp = tmp->next;
-		// }
 		commands = parse_cmd(tokens);
 		if (!commands)
 		{
@@ -120,9 +113,9 @@ int main(int ac, char **av, char **env)
 			curr = curr->next;
 		}
 		if (commands->next)
-			exec_pipeline(commands, &listed, &tokens);
+			exec_pipeline(commands, &listed);
 		else
-			exec_single(&commands, &listed, &tokens);
+			exec_single(&commands, &listed);
 		free_cmd(&commands);
 		ft_tokensclear(&tokens);
 		tokens = NULL;

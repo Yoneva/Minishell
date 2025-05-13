@@ -9,6 +9,6 @@ int	bi_exit(t_cmd *c, s_env **env)
     if (c->argv[1])
         code = ft_atoi(c->argv[1]);
     // rl_clear_history ();
-	cleanup_and_exit(env,(*env)->tmp, &c, code);
+	cleanup_and_exit(env, &c, code);
     return (code);
 }
