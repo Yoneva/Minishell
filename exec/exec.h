@@ -9,5 +9,9 @@ void	exec_external(t_cmd **c, s_env **env, char **envp);
 char	**env_list_to_array(s_env *lst);
 int		apply_redirs(t_cmd *c);
 void	free_strarray(char **arr);
+int   pipe_count(t_cmd *c);
+int   open_all_pipes(int n, int p[][2]);
+void	close_all_pipes(int n, int p[][2]);
+int   get_heredoc_fd(const char *limiter);
 
 #endif /* EXEC_H */
