@@ -6,13 +6,11 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/11 14:05:12 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:04:46 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "../exec/exec.h"
-#include "../builtins/builtins.h"
 
 static int	find_tosawi(char *str)
 {
@@ -98,7 +96,7 @@ int main(int ac, char **av, char **env)
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
-			free_tokens(tokens);
+			ft_tokensclear(&tokens);
 			free(cmd);
 			continue;
 		}
@@ -122,7 +120,7 @@ int main(int ac, char **av, char **env)
 			curr = curr->next;
 		}
 		if (commands->next)
-			exec_pipeline(commands, &listed);
+			exec_pipeline(commands, &listed, &tokens);
 		else
 			exec_single(&commands, &listed, &tokens);
 		free_cmd(&commands);

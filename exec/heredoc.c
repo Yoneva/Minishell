@@ -18,12 +18,12 @@ int get_heredoc_fd(const char *limiter)
             close(p[1]);
             return (p[0]);
         }
-        if (strcmp(line, limiter) == 0)
+        if (ft_strcmp(line, limiter) == 0)
         {
             free(line);
             break;
         }
-        write(p[1], line, strlen(line));
+        write(p[1], line, ft_strlen(line));
         write(p[1], "\n", 1);
         free(line);
     }

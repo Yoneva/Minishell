@@ -1,7 +1,7 @@
 #include "exec.h"
 #include "../builtins/builtins.h"
 
-static void exec_external(t_cmd **c, s_env **env, char **envp, s_tokens **tokens)
+void	exec_external(t_cmd **c, s_env **env, char **envp, s_tokens **tokens)
 {
 	int		i;
 	char	**paths;
@@ -45,7 +45,7 @@ int	exec_single(t_cmd **c, s_env **env, s_tokens **tokens)
 
 	if ((*c)->builtin_id >= 0 && (*c)->n_redir == 0)                /* built‑in in parent               */
 	{
-		apply_redirs(c);
+		apply_redirs(*c);
 		return (g_builtins[(*c)->builtin_id].fn(*c, env));
 	}
 	envp = env_list_to_array(*env);        /* convert once, reuse in child     */

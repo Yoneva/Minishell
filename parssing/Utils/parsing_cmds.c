@@ -1,5 +1,5 @@
-#include "exec.h"
-#include "../builtins/builtins.h"
+#include "../minishell.h"
+#include "../../builtins/builtins.h"
 
 static int  is_redir(int sign)
 {
@@ -129,5 +129,6 @@ t_cmd *parse_cmd(s_tokens *tokens)
             prev->next = curr;
         prev = curr;
     }
+	ft_tokensclear(&tokens);
     return (head);
 }

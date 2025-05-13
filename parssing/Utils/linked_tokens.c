@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/08 15:19:51 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/13 15:17:06 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_tokensclear(s_tokens **lst)
 	s_tokens	*next;
 	s_tokens	*current;
 
-	if (!lst)
+	if (lst == NULL || (*lst) == NULL)
 		return ;
 	current = *lst;
 	while (current)

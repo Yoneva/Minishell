@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/08 15:19:51 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/11 19:20:45 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,24 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 
 int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
-	if(str[i + 1] == '|')
+	i += 1;
+	while (str[i])
 	{
-		return (-1);
+		if (str[i] == ' ')
+			i++;
+		else
+		{
+			if (str[i] == '|')
+			{
+				printf("minishell: syntax error near unexpected token `|'\n");
+				return (-1);
+			}
+			break ;
+		}
 	}
-	else
-	{
-		(*cmd)->type = N_PIPE;
-		(*cmd)->value = ft_strdup("|");
-	}
+	(*cmd)->type = N_PIPE;
+	(*cmd)->value = ft_strdup("|");
+	
 	return (i + 1);
 }
 
