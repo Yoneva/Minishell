@@ -20,11 +20,11 @@ static void setup_child_pipes(int prev[2], int next[2], int i, int is_last)
     }
 }
 
-static void execute_command(t_cmd *cmd, s_env **env)
+static void execute_command(t_cmd **cmd, s_env **env)
 {
-    apply_redirs(cmd);
-    if (cmd->builtin_id >= 0)
-        exit(g_builtins[cmd->builtin_id].fn(cmd, env));
+    apply_redirs(*cmd);
+    if ((*cmd)->builtin_id >= 0)
+        exit(g_builtins[(*cmd)->builtin_id].fn(*cmd, env));
     
     char **envp = env_list_to_array(*env);
     exec_external(cmd, env, envp);
@@ -77,12 +77,12 @@ int	exec_pipeline(t_cmd *first, s_env **env)
         if (pid == 0)
         {
             setup_child_pipes(prev, next, i, cmd->next == NULL);
-            execute_command(cmd, env);
+            execute_command(&cmd, env);
         }
         
         close_parent_pipes(prev, next, i, cmd->next == NULL);
         if (cmd->next)
-            memcpy(prev, next, sizeof(prev));
+            ft_memcpy(prev, next, sizeof(prev));
         
         cmd = cmd->next;
         i++;

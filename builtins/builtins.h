@@ -1,8 +1,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../exec/exec.h"
 # include "../parssing/minishell.h"
+# include "../exec/exec.h"
 
 // extern s_env    *g_env_list;
 // extern s_tokens *g_tokens;
@@ -28,8 +28,7 @@ int	bi_unset(t_cmd *c, s_env **env);
 int	bi_env(t_cmd *c, s_env **env);
 int	bi_exit(t_cmd *c, s_env **env);
 
-void free_cmd(t_cmd **cmd);
-void cleanup_and_exit(s_env **env, s_tokens **tokens, t_cmd **cmd, int n);
+void cleanup_and_exit(s_env **env, t_cmd **cmd, int n);
 s_env *find_env_node(s_env *env, const char *key);
 void set_env_var(s_env **env, const char *k, const char *v);
 void unset_env_var(s_env **env, const char *key);
