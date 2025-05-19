@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 10:42:58 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 16:13:24 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*substr_quotes(char const *s, unsigned int start, size_t len, size_t i);
 int			exec_pipeline(t_cmd *first, s_env **env);
 int			get_heredoc_fd(const char *limiter);
+void		*ft_realloc(void *str, size_t newsize);
+char		*replace_in_double(char *input, s_env **env);
 
 // for cmd struct
 t_cmd		*parse_cmd(s_tokens *tokens);
@@ -82,11 +84,17 @@ void		ft_envadd_back(s_env **lst, s_env *new_node);
 s_env		*ft_envnew(void);
 void		ft_envclear(s_env **lst);
 void		fill_env_list(char **env, s_env **list);
+void		*serachforvar(char *input, s_env **env);
 
 // for tokens struct
 s_tokens	*ft_tokenlast(s_tokens *lst);
 void		ft_tokenadd_back(s_tokens **lst, s_tokens *new_node);
 s_tokens	*ft_tokenew(void);
 void		ft_tokensclear(s_tokens **lst);
+int			single_quote(const char *str, int i, s_tokens **cmd);
+int			double_quote(char *str, int i, s_tokens **cmd, s_env **env);
+int			pipes(const char *str, int i, s_tokens **cmd);
+int			redirections1(const char *str, int i, s_tokens **cmd);
+int			redirections2(const char *str, int i, s_tokens **cmd);
 
 #endif
