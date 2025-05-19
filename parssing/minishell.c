@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/13 17:16:18 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 10:43:01 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int main(int ac, char **av, char **env)
 	s_env		*listed;
 	s_tokens	*tokens;
 	t_cmd		*commands ;
-	char *cmd;
+	char 		*cmd;
+	
 
 	listed = NULL;
 	tokens = NULL;
@@ -85,13 +86,14 @@ int main(int ac, char **av, char **env)
 		}
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
+		if (!tokens)
+			continue;
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
 			ft_tokensclear(&tokens);
-			free(cmd);
 			continue;
 		}
 		t_cmd *curr = commands;

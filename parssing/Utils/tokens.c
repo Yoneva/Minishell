@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/11 19:20:45 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 10:43:34 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	single_quote(const char *str, int i, s_tokens **cmd)
 			break ;
 		else if(str[i + 1] == 0 && str[i] != '\'')
 		{
+			printf("minishell: syntax error: unmatched single quote\n");
 			return (-1);
 		}
 		i++;
@@ -42,8 +43,9 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 	{
 		if(str[i] == '"')
 			break ;
-		else if(str[i + 1] == 0 && str[i] != '\'')
+		else if(str[i] == 0)
 		{
+			printf("minishell: syntax error: unmatched double quote\n");
 			return (-1);
 		}
 		i++;
@@ -55,23 +57,25 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
 	i += 1;
+	if (str[i] == 0)
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return (-1);
+	}
 	while (str[i])
 	{
 		if (str[i] == ' ')
 			i++;
-		else
+		else if (str[i] == '|' || str[i] == 0)
 		{
-			if (str[i] == '|')
-			{
-				printf("minishell: syntax error near unexpected token `|'\n");
-				return (-1);
-			}
-			break ;
+			printf("minishell: syntax error near unexpected token `|'\n");
+			return (-1);
 		}
+		else
+			break;
 	}
 	(*cmd)->type = N_PIPE;
 	(*cmd)->value = ft_strdup("|");
-	
 	return (i + 1);
 }
 
@@ -125,13 +129,21 @@ int	if_envariable(char *input, int i, s_tokens **cmd, s_env **env)
 	while (tmp)
 	{
 		if(ft_strcmp(str, tmp->data) == 0)
-			(*cmd)->value = tmp->value;
+		{
+			(*cmd)->value = ft_strdup(tmp->value);
+			break ;
+		}
 		tmp = tmp->next;
 	}
-	if (env == NULL)
+	free (str);
+	if (tmp == NULL)
+	{
+		printf("minishell: undefined variable: $%s\n", str);
 		return (-1);
+	}
 	return (len);
 }
+
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
 	int	i = 0;
@@ -143,7 +155,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		ft_tokensclear(cmd);
 		ft_envclear(listed);
 		free(input);
-		exit (0);
+		return ;
 	}
 	while (input[i])
 	{
@@ -156,7 +168,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				ft_tokensclear(cmd);
 				ft_envclear(listed);
 				free(input);
-				exit (0);
+				return ;
 			}
 			ft_tokenadd_back(cmd,node);
 		}
@@ -169,7 +181,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				ft_tokensclear(cmd);
 				ft_envclear(listed);
 				free(input);
-				exit (0);
+				return ;
 			}
 			ft_tokenadd_back(cmd,node);
 		}
@@ -182,7 +194,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				ft_tokensclear(cmd);
 				ft_envclear(listed);
 				free(input);
-				exit (0);
+				return ;
 			}
 			ft_tokenadd_back(cmd,node);
 		}
@@ -207,7 +219,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				ft_tokensclear(cmd);
 				ft_envclear(listed);
 				free(input);
-				exit (0);
+				return ;
 			}
 			ft_tokenadd_back(cmd,node);
 		}
