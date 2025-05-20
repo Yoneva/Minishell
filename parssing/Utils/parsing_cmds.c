@@ -52,7 +52,18 @@ static int builtin_id(const char *word)
 static void init_cmd_struct(t_cmd *cmd, int argc, int rcount)
 {
     cmd->argv = malloc(sizeof(char *) * (argc + 1));
+   if (!cmd->argv)
+   {
+       cmd->redir = NULL;
+       return;
+   }
     cmd->redir = malloc(sizeof(t_redir) * rcount);
+   if (!cmd->redir)
+   {
+       free(cmd->argv);
+       cmd->argv = NULL;
+       return;
+   }
     cmd->n_redir = rcount;
     cmd->builtin_id = -1;
     cmd->next = NULL;
@@ -78,6 +89,8 @@ static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
         {
             if (!tok->next || tok->next->type == N_PIPE)
             {
+                fprintf(stderr,
+                    "minishell: syntax error near unexpected token `newline'\n");
                 return ; // should handle syntax error
             }
             
@@ -88,6 +101,8 @@ static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
         tok = tok->next;
     }
     cmd->argv[args_i] = NULL;
+    cmd->n_redir = redirs_i;
+    // Set builtin_id if we have a command
     if (cmd->argv[0])
         cmd->builtin_id = builtin_id(cmd->argv[0]);
     
