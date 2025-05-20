@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 13:48:33 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:30:41 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,28 @@ void	error(char *input, s_tokens **cmd, s_env **listed)
 	free(input);
 }
 
-int	if_envariable(char *input, int i, s_tokens **cmd, s_env **env)
+int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 {
-	int len;
-	s_env *tmp;
+	int 	j;
+	int		i;
+	char	*seg;
 	
-	tmp = *env;
-	len = i;
-	i += 1;
-	while (input[len] && input[len] != ' ')
+	i = 0;
+	j = i;
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$'))
+		i++;
+	seg = ft_substr(str, j, i - j);
+	seg = replace_in_double(seg, env);
+	if (!seg)
 	{
-		len++;
+		free(seg);
+		seg = ft_strdup("");
 	}
-	(*cmd)->type = N_WORD;
-	(*cmd)->value = serachforvar(input + i, env);
-	if ((*cmd)->value == NULL)
-		return (-1);
-	return (len);
+	*tmp = ft_strjoin(*word, seg);
+	free(*word);
+	free(seg);
+	*word = *tmp;
+	return (i);
 }
 
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
@@ -45,11 +50,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 	int			j = 0;
 	char		*word;
 	s_tokens	*node;
-	s_env		*env_node;
-	char		*seg;
 	char		*tmp;
-	char		*name;
-	const char	*value;
 
 	if (!input)
 	{
@@ -85,9 +86,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		word = ft_strdup("");
 		if (!word)
 		{
-			ft_tokensclear(cmd);
-			ft_envclear(listed);
-			free(input);
+			error(input, cmd, listed);
 			exit (0);
 		}
 		while(input[i] && !ft_isspace(input[i]) && input[i] != '|'
@@ -95,63 +94,30 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		{
 			if (input[i] == '\'')
 			{
-				i++;
-				j = i;
-				while (input[i] && input[i] != '\'')
-					i++;
-				if (!input[i])
+				j = single_quote(input + i, &word, &tmp);
+				if (i < 0)
 				{
 					perror("single quote");
-					ft_tokensclear(cmd);
-					ft_envclear(listed);
-					free(input);
-					exit (0);
+					error(input, cmd, listed);
+					return ;
 				}
-				seg = substr_quotes(input, j, i - j, 0);
-				tmp = ft_strjoin(word, seg);
-				free(word);
-				free(seg);
-				word = tmp;
-				i++;		
+				i += j;
 			}
 			else if (input[i] == '"')
 			{
-				i++;
-				j = i;
-				while (input[i] && input[i] != '"')
-					i++;
-				if (!input[i])
+				j = double_quote(input + i, &word, &tmp, listed);
+				if (i < 0)
 				{
-					perror("double quote");
-					ft_tokensclear(cmd);
-					ft_envclear(listed);
-					free(input);
-					exit (0);
+					perror("single quote");
+					error(input, cmd, listed);
+					return ;
 				}
-				seg = substr_quotes(input, j, i - j, 0);
-				tmp = ft_strjoin(word, seg);
-				free(word);
-				free(seg);
-				word = tmp;
-				i++;
+				i += j;
 			}
 			else if (input[i] == '$')
 			{
-				i++;
-				j = i;
-				while (input[i] && (ft_isalnum(input[i])
-						|| input[i] == '_'))
-					i++;
-				name = ft_substr(input, j, i - j);
-				env_node = find_env_node(*listed, name);
-				if (env_node)
-					value = env_node->value;
-				else
-					value = "";
-				tmp = ft_strjoin(word, value);
-				free(word);
-				free(name);
-				word = tmp;
+				j = if_envariable(input + i, &word, &tmp, listed);
+				i += j;
 			}
 			else
 			{

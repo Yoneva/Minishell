@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 16:13:24 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/20 16:14:00 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ s_tokens	*ft_tokenlast(s_tokens *lst);
 void		ft_tokenadd_back(s_tokens **lst, s_tokens *new_node);
 s_tokens	*ft_tokenew(void);
 void		ft_tokensclear(s_tokens **lst);
-int			single_quote(const char *str, int i, s_tokens **cmd);
-int			double_quote(char *str, int i, s_tokens **cmd, s_env **env);
+int			single_quote(char *str, char **, char **tmp);
+int			double_quote(char *str, char **word, char **tmp, s_env **);
 int			pipes(const char *str, int i, s_tokens **cmd);
 int			redirections1(const char *str, int i, s_tokens **cmd);
 int			redirections2(const char *str, int i, s_tokens **cmd);

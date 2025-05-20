@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 16:54:15 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/20 16:14:58 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,43 @@ void	*serachforvar(char *input, s_env **env)
 	free (str);
 	return (NULL);
 }
-int	single_quote(const char *str, int i, s_tokens **cmd)
+int	single_quote(char *str, char **word, char **tmp)
 {
-	int j;
+	int 	j;
+	int		i;
+	char	*seg;
 
+	i = 1;
 	j = i;
-	while(str[i])
-	{
-		if(str[i] == '\'')
-			break ;
-		else if(str[i] == 0)
-		{
-			printf("minishell: syntax error: unmatched single quote\n");
-			return (-1);
-		}
+	while (str[i] && str[i] != '\'')
 		i++;
-	}
-	(*cmd)->type = N_WORD;
-	(*cmd)->value = ft_substr(str, j, i - j);
+	if (!str[i])
+		return (-1);
+	seg = substr_quotes(str, j, i - j, 0);
+	*tmp = ft_strjoin(*word, seg);
+	free(*word);
+	free(seg);
+	*word = *tmp;
 	return (i + 1);
 }
 
-int	double_quote(char *str, int i, s_tokens **cmd, s_env **env) // had joj dawyin ela rasehm
+int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj dawyin ela rasehm
 {
-	int j;
-
-	j = 1;
-	while(str[j])
-	{
-		if(str[j] == '"')
-			break ;
-		else if(str[j] == 0)
-		{
-			printf("minishell: syntax error: unmatched double quote\n");
-			return (-1);
-		}
-		j++;
+	int		i;
+	int		j;
+	char	*seg;
+	i = 1;
+	j = i;
+	while (str[i] && str[i] != '"')
 		i++;
-	}
-	(*cmd)->type = N_WORD;
-	(*cmd)->value = replace_in_double(str + 1, env);
+	if (!str[i])
+		return (-1);
+	seg = substr_quotes(str, j, i - j, 0);
+	seg = replace_in_double(seg, env);
+	*tmp = ft_strjoin(*word, seg);
+	free(*word);
+	free(seg);
+	*word = *tmp;
 	return (i + 1);
 }
 

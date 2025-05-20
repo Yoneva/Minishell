@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 11:27:29 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/20 14:34:28 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int main(int ac, char **av, char **env)
 		tokenize_shell(cmd, &tokens, &listed);
 		if (!tokens)
 			continue;
-		s_tokens *tmp = tokens; 
-		while (tmp)
-		{
-			printf("%s\n", tmp->value);
-			tmp = tmp->next;
-		}
+		// s_tokens *tmp = tokens; 
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->value);
+		// 	tmp = tmp->next;
+		// }
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)
