@@ -10,6 +10,8 @@ void	exec_external(t_cmd **c, s_env **env, char **envp)
 	char	*tmp;
 	s_env	*node;
 
+    if (!c || !*c || !(*c)->argv || !(*c)->argv[0])
+        cleanup_and_exit(env, c, 1);
 	if (ft_strchr((*c)->argv[0], '/'))
 		execve((*c)->argv[0], (*c)->argv, envp);
 	node = find_env_node(*env, "PATH");
@@ -33,6 +35,7 @@ void	exec_external(t_cmd **c, s_env **env, char **envp)
 	}
 	execve((*c)->argv[0], (*c)->argv, envp);
 	perror((*c)->argv[0]);
+	free_strarray(paths);
 	free_strarray(envp);
 	cleanup_and_exit(env, c, 127);
 }
@@ -43,24 +46,49 @@ int	exec_single(t_cmd **c, s_env **env)
 	int		status;
 	char	**envp;
 
+    // For builtins without redirections, execute directly
 	if ((*c)->builtin_id >= 0 && (*c)->n_redir == 0)                /* built‑in in parent               */
-	{
-		apply_redirs(*c);
 		return (g_builtins[(*c)->builtin_id].fn(*c, env));
+    // For builtins with redirections, fork and apply redirections
+    if ((*c)->builtin_id >= 0)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+	    	if (apply_redirs(*c) != 0)
+    	    	exit(1);
+			exit(g_builtins[(*c)->builtin_id].fn(*c, env));
+		}
+		waitpid(pid, &status, 0);
+		// Check if the child process exited normally
+		if (WIFEXITED(status))
+			// If it did, return the exit status of the child
+			return WEXITSTATUS(status);
+		else
+			return 1;
 	}
+
 	envp = env_list_to_array(*env);        /* convert once, reuse in child     */
 	if (!envp)
 		return (1);
 	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		return (1);
+	}
 	if (pid == 0)
 	{
-		if (apply_redirs(*c))
-			cleanup_and_exit(env, c,1);
-		if ((*c)->builtin_id >= 0)
-			cleanup_and_exit(env, c, g_builtins[(*c)->builtin_id].fn(*c, env));
+		if (apply_redirs(*c) != 0)
+			exit(1);
 		exec_external(c, env, envp);
 	}
 	free_strarray(envp);                   /* parent: we don’t need it anymore  */
 	waitpid(pid, &status, 0);
-	return (WIFEXITED(status) ? WEXITSTATUS(status) : 1);
+	// Check if the child process exited normally
+	if (WIFEXITED(status))
+		// If it did, return the exit status of the child
+		return WEXITSTATUS(status);
+	else
+		return 1;
 }

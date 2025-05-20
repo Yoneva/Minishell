@@ -4,9 +4,6 @@
 # include "../parssing/minishell.h"
 # include "../exec/exec.h"
 
-// extern s_env    *g_env_list;
-// extern s_tokens *g_tokens;
-// extern t_cmd    *g_cmds;
 
 /* Builtin function pointer */
 typedef int (*t_builtin_fn)(t_cmd *cmd, s_env **env);
@@ -32,6 +29,7 @@ void cleanup_and_exit(s_env **env, t_cmd **cmd, int n);
 s_env *find_env_node(s_env *env, const char *key);
 void set_env_var(s_env **env, const char *k, const char *v);
 void unset_env_var(s_env **env, const char *key);
-
+void sort_env_vars(s_env **env_array, int count);
+int count_env_vars(s_env *env);
 #endif
 

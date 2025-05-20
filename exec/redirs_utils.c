@@ -1,5 +1,4 @@
 #include "exec.h"
-#include "../builtins/builtins.h"
 
 int	apply_redirs(t_cmd *c)
 {

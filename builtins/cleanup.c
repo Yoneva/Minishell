@@ -15,12 +15,12 @@ void	free_cmd(t_cmd **cmd)
 			free((*cmd)->argv[i++]);
 		free((*cmd)->argv);
 		i = 0;
-		while (i < (*cmd)->n_redir)
-		{
-			free((*cmd)->redir[i].filename);
-			i++;
-		}
-		free((*cmd)->redir);
+    if ((*cmd)->redir)
+    {
+        while (i < (*cmd)->n_redir)
+            free((*cmd)->redir[i++].filename);
+        free((*cmd)->redir);
+    }
 		free(*cmd);  // Free the actual command structure
 		*cmd = next;
 	}
