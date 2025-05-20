@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/11 19:20:45 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 21:05:20 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/builtins.h"
 
 int	single_quote(const char *str, int i, s_tokens **cmd)
 {
 	int j;
 
 	j = i;
-	(*cmd)->type = N_SINGLE_QUOTE;
+	(*cmd)->type = N_WORD;
 	while(str[i])
 	{
 		if(str[i] == '\'')
@@ -29,6 +30,8 @@ int	single_quote(const char *str, int i, s_tokens **cmd)
 		i++;
 	}
 	(*cmd)->value = ft_substr(str, j, i - j);
+	if (!(*cmd)->value)
+		return (-1);
 	return (i + 1);
 }
 
@@ -37,7 +40,7 @@ int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela r
 	int j;
 
 	j = i;
-	(*cmd)->type = N_DOUBLE_QUOTE;
+	(*cmd)->type = N_WORD;
 	while(str[i])
 	{
 		if(str[i] == '"')
@@ -72,7 +75,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 	(*cmd)->type = N_PIPE;
 	(*cmd)->value = ft_strdup("|");
 	
-	return (i + 1);
+	return (i);
 }
 
 int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && output
@@ -132,11 +135,20 @@ int	if_envariable(char *input, int i, s_tokens **cmd, s_env **env)
 		return (-1);
 	return (len);
 }
+
+
+
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
-	int	i = 0;
-	int	j = 0;
-	s_tokens *node;
+	int			i = 0;
+	int			j = 0;
+	char		*word;
+	s_tokens	*node;
+	s_env		*env_node;
+	char		*seg;
+	char		*tmp;
+	char		*name;
+	const char	*value;
 
 	if (!input)
 	{
@@ -147,87 +159,122 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 	}
 	while (input[i])
 	{
-		if (input[i] == '\'')
-		{
-			node = ft_tokenew();
-			i = single_quote(input, i + 1, &node); // +1 to skip quote
-			if(i == -1)
-			{
-				ft_tokensclear(cmd);
-				ft_envclear(listed);
-				free(input);
-				exit (0);
-			}
-			ft_tokenadd_back(cmd,node);
-		}
-		else if (input[i] == '"')
-		{
-			node = ft_tokenew();
-			i = double_quote(input, i + 1, &node); // +1 to skip quote
-			if(i == -1)
-			{
-				ft_tokensclear(cmd);
-				ft_envclear(listed);
-				free(input);
-				exit (0);
-			}
-			ft_tokenadd_back(cmd,node);
-		}
-		else if (input[i] == '|')
-		{
-			node = ft_tokenew();
-			i = pipes(input, i, &node);
-			if(i == -1)
-			{
-				ft_tokensclear(cmd);
-				ft_envclear(listed);
-				free(input);
-				exit (0);
-			}
-			ft_tokenadd_back(cmd,node);
-		}
-		else if (input[i] == '<')
-		{
-			node = ft_tokenew();
-			i = redirections2(input, i, &node);
-			ft_tokenadd_back(cmd,node);
-		}
-		else if (input[i] == '>')
-		{
-			node = ft_tokenew();
-			i = redirections1(input, i, &node);
-			ft_tokenadd_back(cmd,node);
-		}
-		else if (input[i] == '$')
-		{
-			node = ft_tokenew();
-			i = if_envariable(input, i, &node, listed);
-			if(i == -1)
-			{
-				ft_tokensclear(cmd);
-				ft_envclear(listed);
-				free(input);
-				exit (0);
-			}
-			ft_tokenadd_back(cmd,node);
-		}
-		else if(input[i] == ' ')
+		if(ft_isspace((unsigned char)input[i]))
 		{
 			i++;
 			continue;
 		}
-		else
+		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
 			node = ft_tokenew();
-			j = i;
-			while(input[i] && (input[i] != ' ' && input[i] != '\t'))
+			if (input[i] == '|')
+				i = pipes(input, i, &node);
+			else if (input[i] == '<')
+				i = redirections2(input, i, &node);
+			else if (input[i] == '>')
+				i = redirections1(input, i, &node);
+			if (i < 0)
+			{
+				ft_tokensclear(cmd);
+				ft_envclear(listed);
+				free(input);
+				exit (0);
+			}
+			ft_tokenadd_back(cmd,node);
+			continue;
+		}
+		node = ft_tokenew();
+		node->type = N_WORD;
+		word = strdup("");
+		if (!word)
+		{
+			ft_tokensclear(cmd);
+			ft_envclear(listed);
+			free(input);
+			exit (0);
+		}
+		while(input[i] && !ft_isspace(input[i]) && input[i] != '|'
+			&& input[i] != '<' && input[i] != '>')
+		{
+			if (input[i] == '\'')
 			{
 				i++;
+				j = i;
+				while (input[i] && input[i] != '\'')
+					i++;
+				if (!input[i])
+				{
+					perror("single quote");
+					ft_tokensclear(cmd);
+					ft_envclear(listed);
+					free(input);
+					exit (0);
+				}
+				seg = substr_quotes(input, j, i - j, 0);
+				tmp = ft_strjoin(word, seg);
+				free(word);
+				free(seg);
+				word = tmp;
+				i++;		
 			}
-			node->type = N_WORD;
-			node->value = substr_quotes(input, j, i - j, 0);
-			ft_tokenadd_back(cmd,node);
+			else if (input[i] == '"')
+			{
+				i++;
+				j = i;
+				while (input[i] && input[i] != '"')
+					i++;
+				if (!input[i])
+				{
+					perror("double quote");
+					ft_tokensclear(cmd);
+					ft_envclear(listed);
+					free(input);
+					exit (0);
+				}
+				seg = substr_quotes(input, j, i - j, 0);
+				tmp = ft_strjoin(word, seg);
+				free(word);
+				free(seg);
+				word = tmp;
+				i++;
+			}
+			else if (input[i] == '$')
+			{
+				i++;
+				j = i;
+				while (input[i] && (ft_isalnum(input[i])
+						|| input[i] == '_'))
+					i++;
+				name = ft_substr(input, j, i - j);
+				env_node = find_env_node(*listed, name);
+				if (env_node)
+					value = env_node->value;
+				else
+					value = "";
+				tmp = ft_strjoin(word, value);
+				free(word);
+				free(name);
+				word = tmp;
+			}
+			else
+			{
+				tmp = malloc(ft_strlen(word) + 2);
+				if (!tmp)
+				{
+					ft_tokensclear(cmd);
+					ft_envclear(listed);
+					free(input);
+					exit (0);
+				}
+				ft_memcpy(tmp, word, ft_strlen(word));
+				tmp[ft_strlen(word)] = input[i++];
+				tmp[ft_strlen(word) + 1] = '\0';
+				free(word);
+				word = tmp;
+			}
 		}
+		node->value = word;
+		ft_tokenadd_back(cmd, node);
 	}
 }
 
