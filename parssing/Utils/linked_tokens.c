@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/13 15:17:06 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/16 00:54:31 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 s_tokens	*ft_tokenew(void)
 {
-	s_tokens	*node;
+ 	s_tokens	*node;
 
-	node = malloc(sizeof(s_tokens));
-	if (!node)
-		return (NULL);
-	node->next = NULL;
+ 	node = malloc(sizeof(s_tokens));
+ 	if (!node)
+ 		return (NULL);
+ 	node->value = NULL;
+ 	node->type = 0;
+ 	node->next = NULL;
 	return (node);
 }
 
