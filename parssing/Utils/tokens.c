@@ -6,137 +6,37 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 21:05:20 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/20 11:34:22 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../../builtins/builtins.h"
 
-int	single_quote(const char *str, int i, s_tokens **cmd)
+void	error(char *input, s_tokens **cmd, s_env **listed)
 {
-	int j;
-
-	j = i;
-	(*cmd)->type = N_WORD;
-	while(str[i])
-	{
-		if(str[i] == '\'')
-			break ;
-		else if(str[i + 1] == 0 && str[i] != '\'')
-		{
-			return (-1);
-		}
-		i++;
-	}
-	(*cmd)->value = ft_substr(str, j, i - j);
-	if (!(*cmd)->value)
-		return (-1);
-	return (i + 1);
-}
-
-int	double_quote(const char *str, int i, s_tokens **cmd) // had joj dawyin ela rasehm
-{
-	int j;
-
-	j = i;
-	(*cmd)->type = N_WORD;
-	while(str[i])
-	{
-		if(str[i] == '"')
-			break ;
-		else if(str[i + 1] == 0 && str[i] != '\'')
-		{
-			return (-1);
-		}
-		i++;
-	}
-	(*cmd)->value = ft_substr(str, j, i - j);
-	return (i + 1);
-}
-
-int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
-{
-	i += 1;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			i++;
-		else
-		{
-			if (str[i] == '|')
-			{
-				printf("minishell: syntax error near unexpected token `|'\n");
-				return (-1);
-			}
-			break ;
-		}
-	}
-	(*cmd)->type = N_PIPE;
-	(*cmd)->value = ft_strdup("|");
-	
-	return (i);
-}
-
-int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && output
-{
-	if(str[i + 1] == '>')
-	{
-		(*cmd)->type = N_APPEND_SIGN;
-		(*cmd)->value = ft_strdup(">>");
-		i++;
-	}
-	else
-	{
-		(*cmd)->type = N_OUTPUT_SIGN;
-		(*cmd)->value = ft_strdup(">");
-	}
-	return (i + 1);
-}
-
-int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redirection && input
-{
-	if(str[i + 1] == '<')
-	{
-		(*cmd)->type = N_HEREDOC_SIGN;
-		(*cmd)->value = ft_strdup("<<");
-		i++;
-	}
-	else
-	{
-		(*cmd)->type = N_INPUT_SIGN;
-		(*cmd)->value = ft_strdup("<");
-	}
-	return (i + 1);
+	ft_tokensclear(cmd);
+	ft_envclear(listed);
+	free(input);
 }
 
 int	if_envariable(char *input, int i, s_tokens **cmd, s_env **env)
 {
 	int len;
-	char *str;
 	s_env *tmp;
 	
 	tmp = *env;
 	len = i;
 	i += 1;
-	(*cmd)->type = N_WORD;
 	while (input[len] && input[len] != ' ')
 	{
 		len++;
 	}
-	str = ft_substr((input + i), 0, len);
-	while (tmp)
-	{
-		if(ft_strcmp(str, tmp->data) == 0)
-			(*cmd)->value = tmp->value;
-		tmp = tmp->next;
-	}
-	if (env == NULL)
+	(*cmd)->type = N_WORD;
+	(*cmd)->value = serachforvar(input + i, env);
+	if ((*cmd)->value == NULL)
 		return (-1);
 	return (len);
 }
-
-
 
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
@@ -152,10 +52,8 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 
 	if (!input)
 	{
-		ft_tokensclear(cmd);
-		ft_envclear(listed);
-		free(input);
-		exit (0);
+		error(input, cmd, listed);
+		return ;
 	}
 	while (input[i])
 	{
@@ -175,10 +73,8 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				i = redirections1(input, i, &node);
 			if (i < 0)
 			{
-				ft_tokensclear(cmd);
-				ft_envclear(listed);
-				free(input);
-				exit (0);
+				error(input, cmd, listed);
+				return ;
 			}
 			ft_tokenadd_back(cmd,node);
 			continue;

@@ -6,7 +6,7 @@
 /*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/16 00:14:25 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/20 11:27:29 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int main(int ac, char **av, char **env)
 	s_env		*listed;
 	s_tokens	*tokens;
 	t_cmd		*commands ;
-	char *cmd;
+	char 		*cmd;
+	
 
 	listed = NULL;
 	tokens = NULL;
@@ -73,13 +74,21 @@ int main(int ac, char **av, char **env)
 		cmd = readline(">> ");
 		if (!cmd)
 			break;
-        if (*cmd == '\0')              /* empty line */
-        {
-            free(cmd);
-            continue;
-        }
+		if (*cmd == '\0')
+		{
+			free(cmd);
+			continue;
+		}
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
+		if (!tokens)
+			continue;
+		s_tokens *tmp = tokens; 
+		while (tmp)
+		{
+			printf("%s\n", tmp->value);
+			tmp = tmp->next;
+		}
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)

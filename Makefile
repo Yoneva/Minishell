@@ -5,7 +5,8 @@ SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c 
 		exec/exec.c parssing/Utils/parsing_cmds.c exec/env_list_to_array.c exec/redirs_utils.c builtins/builtins.c \
 		builtins/echo.c builtins/pwd.c builtins/env.c builtins/exit.c builtins/cleanup.c builtins/unset.c \
 		builtins/export.c builtins/cd.c builtins/env_helpers.c parssing/Utils/substrmodified.c \
-		parssing/Utils/ft_strcmp.c exec/exec_pipeline.c exec/heredoc.c
+		parssing/Utils/ft_strcmp.c exec/exec_pipeline.c exec/heredoc.c parssing/Utils/helper_file.c \
+		parssing/Utils/ft_realloc.c parssing/Utils/replace_var.c
 HEADER = parssing/minishell.h libft/libft.h exec/exec.h builtins/builtins.h
 FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 OBJS = $(SRCS:.c=.o)
