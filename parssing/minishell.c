@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/13 17:16:18 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/16 00:14:25 by aimaneyousr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,11 @@ int main(int ac, char **av, char **env)
 		cmd = readline(">> ");
 		if (!cmd)
 			break;
-		if (cmd[0] == 0)
-		{
-			free(cmd);
-			continue;
-		}
-		if (*cmd == '\0')
-		{
-			free(cmd);
-			continue;
-		}
+        if (*cmd == '\0')              /* empty line */
+        {
+            free(cmd);
+            continue;
+        }
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
 		commands = parse_cmd(tokens);
@@ -91,7 +86,7 @@ int main(int ac, char **av, char **env)
 		{
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
 			ft_tokensclear(&tokens);
-			free(cmd);
+			tokens = NULL;
 			continue;
 		}
 		t_cmd *curr = commands;
