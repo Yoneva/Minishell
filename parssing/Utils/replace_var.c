@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 16:23:31 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:34:08 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,19 @@ char	*replace_in_double(char *input, s_env **env)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '$')          // Found variable start
+		if (input[i] == '\\' && input[i + 1])
+		{
+			// Handle escaped character
+			char *s = malloc(2);
+			if (!s)
+				return NULL;
+			s[0] = input[i + 1];
+			s[1] = '\0';
+			result = ft_strjoin(result, s);
+			free(s);
+			i += 2;
+		}
+		else if (input[i] == '$')          // Found variable start
 		{
 			i += 1;
 			tmp = serachforvar(input + i, env); // Search for variable in env list

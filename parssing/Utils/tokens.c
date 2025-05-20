@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 11:34:22 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/05/20 13:48:33 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/builtins.h"
 
 void	error(char *input, s_tokens **cmd, s_env **listed)
 {
@@ -81,7 +82,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		}
 		node = ft_tokenew();
 		node->type = N_WORD;
-		word = strdup("");
+		word = ft_strdup("");
 		if (!word)
 		{
 			ft_tokensclear(cmd);

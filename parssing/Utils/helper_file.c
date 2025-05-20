@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/19 16:25:01 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/19 16:54:15 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	single_quote(const char *str, int i, s_tokens **cmd)
 		}
 		i++;
 	}
-	(*cmd)->type = N_SINGLE_QUOTE;
+	(*cmd)->type = N_WORD;
 	(*cmd)->value = ft_substr(str, j, i - j);
 	return (i + 1);
 }
@@ -74,7 +74,7 @@ int	double_quote(char *str, int i, s_tokens **cmd, s_env **env) // had joj dawyi
 		j++;
 		i++;
 	}
-	(*cmd)->type = N_DOUBLE_QUOTE;
+	(*cmd)->type = N_WORD;
 	(*cmd)->value = replace_in_double(str + 1, env);
 	return (i + 1);
 }

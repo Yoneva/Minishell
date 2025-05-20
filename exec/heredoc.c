@@ -18,7 +18,7 @@ int get_heredoc_fd(const char *limiter)
             close(p[1]);
             return (p[0]);
         }
-        if (strcmp(line, limiter) == 0)
+        if (ft_strcmp(line, limiter) == 0)
         {
             free(line);
             break;
