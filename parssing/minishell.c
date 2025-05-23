@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 14:34:28 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:07:45 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,28 @@ void	fill_env_list(char **env, s_env **list)
 	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	(void)av;
-	(void)ac;
 	s_env		*listed;
 	s_tokens	*tokens;
 	t_cmd		*commands ;
 	char 		*cmd;
-	
+	(void)av;
+	(void)ac;
 
 	listed = NULL;
 	tokens = NULL;
 	commands = NULL;
 	fill_env_list(env, &listed);
+	if (!listed)
+	{
+		//fill with "/0"
+	}
 	while (1)
 	{
 		cmd = readline(">> ");
 		if (!cmd)
-			break;
+			break ;
 		if (*cmd == '\0')
 		{
 			free(cmd);
@@ -83,12 +86,6 @@ int main(int ac, char **av, char **env)
 		tokenize_shell(cmd, &tokens, &listed);
 		if (!tokens)
 			continue;
-		// s_tokens *tmp = tokens; 
-		// while (tmp)
-		// {
-		// 	printf("%s\n", tmp->value);
-		// 	tmp = tmp->next;
-		// }
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)
@@ -98,26 +95,6 @@ int main(int ac, char **av, char **env)
 			tokens = NULL;
 			continue;
 		}
-		t_cmd *curr = commands;
-		// call function handel herdocument
-		while (curr)
-		{
-			int i = 0;
-			while (curr->argv && curr->argv[i])
-			{
-				// printf("arg=%d  =>  [%s] ", i, curr->argv[i]);
-				i++;
-			}
-			// printf("\n");
-			int j = 0;
-			while (j < curr->n_redir)
-			{
-				// printf("redir[%d]: type = %d, filename = %s\n",
-				// j, curr->redir[j].type, curr->redir[j].filename);
-				j++;
-			}
-			curr = curr->next;
-		}
 		if (commands->next)
 			exec_pipeline(commands, &listed);
 		else
@@ -126,6 +103,6 @@ int main(int ac, char **av, char **env)
 		ft_tokensclear(&tokens);
 		tokens = NULL;
 	}
-   ft_envclear(&listed);
+	ft_envclear(&listed);
 	return (0);
 }
