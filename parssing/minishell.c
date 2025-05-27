@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/23 17:07:45 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:18:18 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	fill_env_list(char **env, s_env **list)
 	int		tmp;
 	int		i;
 	s_env	*node;
-	
+
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		tmp = find_tosawi(env[i]);
 		if (!tmp)
@@ -47,7 +47,7 @@ void	fill_env_list(char **env, s_env **list)
 			ft_envclear(list);
 			exit(0);
 		}
-		node->data = ft_substr(env[i],0, tmp);
+		node->data = ft_substr(env[i], 0, tmp);
 		node->value = ft_substr(env[i],tmp + 1, ft_strlen(env[i]) - tmp);
 		ft_envadd_back(list, node);
 		node = node->next;
@@ -60,7 +60,8 @@ int	main(int ac, char **av, char **env)
 	s_env		*listed;
 	s_tokens	*tokens;
 	t_cmd		*commands ;
-	char 		*cmd;
+	char		*cmd;
+	
 	(void)av;
 	(void)ac;
 

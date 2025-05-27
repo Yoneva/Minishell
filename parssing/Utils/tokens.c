@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 18:30:41 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/27 05:55:23 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	seg = replace_in_double(seg, env);
 	if (!seg)
 	{
+		if  (str[i] == '.')
+		{
+			while(str[i] != ' ')
+				i++;
+		}
 		free(seg);
 		seg = ft_strdup("");
 	}
@@ -95,9 +100,9 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 			if (input[i] == '\'')
 			{
 				j = single_quote(input + i, &word, &tmp);
-				if (i < 0)
+				if (j < 0)
 				{
-					perror("single quote");
+					printf("minishell: syntax error near unexpected token '\''\n");
 					error(input, cmd, listed);
 					return ;
 				}
@@ -106,9 +111,9 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 			else if (input[i] == '"')
 			{
 				j = double_quote(input + i, &word, &tmp, listed);
-				if (i < 0)
+				if (j < 0)
 				{
-					perror("single quote");
+					printf("minishell: syntax error near unexpected token '\"'\n");
 					error(input, cmd, listed);
 					return ;
 				}

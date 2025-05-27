@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 16:14:58 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/27 05:22:55 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	*serachforvar(char *input, s_env **env)
 		tmp = tmp->next;
 	}
 	if (tmp == NULL)
-		printf("minishell: undefined variable: $%s\n", str);
+	{
+		return (NULL);
+	}
 	free (str);
 	return (NULL);
 }
@@ -46,7 +48,7 @@ int	single_quote(char *str, char **word, char **tmp)
 	j = i;
 	while (str[i] && str[i] != '\'')
 		i++;
-	if (!str[i])
+	if (str[i] == '\'')
 		return (-1);
 	seg = substr_quotes(str, j, i - j, 0);
 	*tmp = ft_strjoin(*word, seg);
@@ -63,9 +65,11 @@ int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj daw
 	char	*seg;
 	i = 1;
 	j = i;
-	while (str[i] && str[i] != '"')
-		i++;
 	if (!str[i])
+		return (-1);
+	while (str[i] && str[i] != '"') // wont work in false cases
+		i++;
+	if (str[i] != '"')
 		return (-1);
 	seg = substr_quotes(str, j, i - j, 0);
 	seg = replace_in_double(seg, env);
