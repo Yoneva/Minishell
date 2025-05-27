@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 16:32:03 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:16:51 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*replace_in_double(char *input, s_env **env)
 {
 	char	*result; // Initialize empty result string
 	char	*tmp;
-	int 	i;
+	int		i;
 	
 	result = ft_strdup(""); 
 	i = 0;
@@ -34,7 +34,7 @@ char	*replace_in_double(char *input, s_env **env)
 				i++;  // skip variable name
 		}
 		else if(input[i] == '"')
-			break;
+			break ;
 		else // Regular character
 		{
 			char *s = malloc(2);
