@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/27 05:55:23 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:24:21 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	
 	i = 0;
 	j = i;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$' || str[i] == '?'))
 		i++;
 	seg = ft_substr(str, j, i - j);
 	seg = replace_in_double(seg, env);
@@ -62,6 +62,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		error(input, cmd, listed);
 		return ;
 	}
+	j = -2;
 	while (input[i])
 	{
 		if(ft_isspace((unsigned char)input[i]))
@@ -73,7 +74,16 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		{
 			node = ft_tokenew();
 			if (input[i] == '|')
-				i = pipes(input, i, &node);
+			{
+				if (j == -2)
+				{
+					printf("minishell: syntax error near unexpected token '|'\n");
+					g_status = 285;
+					error(input, cmd, listed);
+					return;
+				}
+				i =	pipes(input, i, &node);
+			}
 			else if (input[i] == '<')
 				i = redirections2(input, i, &node);
 			else if (input[i] == '>')
@@ -103,6 +113,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				if (j < 0)
 				{
 					printf("minishell: syntax error near unexpected token '\''\n");
+					g_status = 1;
 					error(input, cmd, listed);
 					return ;
 				}
@@ -114,6 +125,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 				if (j < 0)
 				{
 					printf("minishell: syntax error near unexpected token '\"'\n");
+					g_status = 1;
 					error(input, cmd, listed);
 					return ;
 				}
@@ -126,6 +138,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 			}
 			else
 			{
+				j = 0;
 				tmp = malloc(ft_strlen(word) + 2);
 				if (!tmp)
 				{
