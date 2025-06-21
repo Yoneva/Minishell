@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/20 16:14:00 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:19:02 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+
+extern int g_status;
 
 enum t_sign {
 	N_PIPE,
@@ -64,7 +66,6 @@ typedef struct f_tokens {
 
 int			main(int ac, char **av, char **env);
 char		**ft_split(char const *s, char c);
-// void		*ft_realloc(void *str, size_t newsize);
 int			exec_single(t_cmd **c, s_env **env);
 void		tokenize_shell(char* input, s_tokens **cmd, s_env **listed);
 int			ft_strcmp(const char *s1, const char *s2);
@@ -72,6 +73,7 @@ char		*substr_quotes(char const *s, unsigned int start, size_t len, size_t i);
 int			exec_pipeline(t_cmd *first, s_env **env);
 int			get_heredoc_fd(const char *limiter);
 void		*ft_realloc(void *str, size_t newsize);
+char    	*ft_itoa(int nbr);
 char		*replace_in_double(char *input, s_env **env);
 
 // for cmd struct

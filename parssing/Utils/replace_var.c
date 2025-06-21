@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/23 17:16:51 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/06/21 17:45:40 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*replace_in_double(char *input, s_env **env)
 	char	*result; // Initialize empty result string
 	char	*tmp;
 	int		i;
+	int		j;
 	
 	result = ft_strdup(""); 
 	i = 0;
@@ -25,12 +26,14 @@ char	*replace_in_double(char *input, s_env **env)
 		if (input[i] == '$')          // Found variable start
 		{
 			i += 1;
+			j = i;
 			tmp = serachforvar(input + i, env); // Search for variable in env list
+			// g_status = 0;
 			if (tmp)
 				result = ft_strjoin(result, tmp); // Add value to result
 			else
 				return NULL;
-			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_' || input[j] == '?'))
 				i++;  // skip variable name
 		}
 		else if(input[i] == '"')

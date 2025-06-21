@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/09 19:55:43 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:19:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ void	*serachforvar(char *input, s_env **env)
 	
 	tmp = *env;
 	len = 0;
-	while (input[len] && (ft_isalnum(input[len]) || input[len] == '_'))
+	while (input[len] && (ft_isalnum(input[len]) || input[len] == '_') && input[len] != '?')
 	{
 		len++;
+	}
+	if(input[0] == '?')
+	{
+		str = ft_strdup(ft_itoa(g_status)); // set golbal variable | make a function to turn a number to string
+		g_status = 0;
+		return str;
 	}
 	str = ft_substr(input , 0, len);
 	while (tmp)
@@ -83,9 +89,15 @@ int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj daw
 int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 {
 	i += 1;
+	
+	while( str[i] && ft_isspace(str[i]))
+	{
+		i++;
+	}
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token '|'\n");
+		g_status = 258;
 		return (-1);
 	}
 	while (str[i])
@@ -95,6 +107,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 		else if (str[i] == '|' || str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token '|'\n");
+			g_status = 258;
 			return (-1);
 		}
 		else
@@ -122,6 +135,7 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token 'newline'\n");
+		g_status = 258;
 		return (-1);
 	}
 	while(str[i])
@@ -129,6 +143,7 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 		if(str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token 'newline'\n");
+			g_status = 258;
 			return (-1);
 		}
 		else if (str[i] == ' ')
@@ -156,6 +171,7 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token 'newline'\n");
+		g_status = 258;
 		return (-1);
 	}
 	while(str[i])
@@ -163,6 +179,7 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 		if(str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token 'newline'\n");
+			g_status = 258;
 			return (-1);
 		}
 		else if (str[i] == ' ')
