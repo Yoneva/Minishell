@@ -6,15 +6,15 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:10:33 by user              #+#    #+#             */
-/*   Updated: 2025/06/21 17:27:02 by user             ###   ########.fr       */
+/*   Updated: 2025/06/24 21:05:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int nlen(int nbr)
+int	nlen(int nbr)
 {
-    int i;
+	int	i;
 
     if (nbr == 0)
         return (1);

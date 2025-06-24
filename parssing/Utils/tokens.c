@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/21 18:24:21 by user             ###   ########.fr       */
+/*   Updated: 2025/06/24 21:39:43 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,37 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	*word = *tmp;
 	return (i);
 }
-
+int	first_case(s_tokens **node, char* input, s_tokens **cmd)
+{	
+	int			i = 0;
+	static int			j;
+	
+	*node = ft_tokenew();
+	if (input[i] == '|')
+	{
+		if (j == 0)
+		{
+			printf("minishell: syntax error near unexpected token '|'\n");
+			g_status = 285;
+			return(-1);
+		}
+		i =	pipes(input, i, node);
+	}
+	else if (input[i] == '<')
+		i = redirections2(input, i, node);
+	else if (input[i] == '>')
+		i = redirections1(input, i, node);
+	if (i < 0)
+		return (-1);
+	ft_tokenadd_back(cmd,*node);
+	j = 1;
+	return (i);
+}
+int	second_case()
+{
+	int j;
+	int i;
+}
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
 	int			i = 0;
@@ -62,7 +92,7 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		error(input, cmd, listed);
 		return ;
 	}
-	j = -2;
+	j = 0;
 	while (input[i])
 	{
 		if(ft_isspace((unsigned char)input[i]))
@@ -72,28 +102,13 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		}
 		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
-			node = ft_tokenew();
-			if (input[i] == '|')
-			{
-				if (j == -2)
-				{
-					printf("minishell: syntax error near unexpected token '|'\n");
-					g_status = 285;
-					error(input, cmd, listed);
-					return;
-				}
-				i =	pipes(input, i, &node);
-			}
-			else if (input[i] == '<')
-				i = redirections2(input, i, &node);
-			else if (input[i] == '>')
-				i = redirections1(input, i, &node);
-			if (i < 0)
+			j = first_case(&node, input + i, cmd);
+			if (j < 0)
 			{
 				error(input, cmd, listed);
-				return ;
+				return;
 			}
-			ft_tokenadd_back(cmd,node);
+			i += j;
 			continue;
 		}
 		node = ft_tokenew();
@@ -158,26 +173,3 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 		ft_tokenadd_back(cmd, node);
 	}
 }
-
-// int main()
-// {
-//     char *input = "ls hh $amal";
-//     s_tokens *cmd = NULL;
-
-//     // Allocate memory
-//     s_env *hh = malloc(sizeof(s_env));
-//     hh->data = ft_strdup("amal");
-//     hh->value = ft_strdup("nadya bzf");
-//     hh->next = NULL;
-
-//     tokenize_shell(input, &cmd, &hh);
-
-//     s_tokens *curr = cmd;
-//     while (curr)
-//     {
-//         printf("Token Type: %d\tValue: [%s]\n", curr->type, curr->value);
-//         curr = curr->next;
-//     }
-
-//     return 0;
-// }

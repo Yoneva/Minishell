@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substrmodified.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimaneyousr <aimaneyousr@student.42.fr>    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 19:57:21 by amsbai            #+#    #+#             */
-/*   Updated: 2025/05/16 17:54:02 by aimaneyousr      ###   ########.fr       */
+/*   Updated: 2025/06/24 21:07:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*substr_quotes(char const *s, unsigned int start, size_t len, size_t i)
 {
 	char	*str;
 
-	if (!s)
-		return (NULL);
 	if (start > ft_strlen(s))
 		return (ft_strdup(""));
 	if (len > ft_strlen(s + start))

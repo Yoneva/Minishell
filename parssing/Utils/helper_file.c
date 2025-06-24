@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/21 18:19:07 by user             ###   ########.fr       */
+/*   Updated: 2025/06/24 20:58:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 void	*serachforvar(char *input, s_env **env)
 {
-	char *str;
-	s_env *tmp;
-	int len;
+	char	*str;
+	s_env	*tmp;
+	int		len;
 	
 	tmp = *env;
 	len = 0;
 	while (input[len] && (ft_isalnum(input[len]) || input[len] == '_') && input[len] != '?')
-	{
 		len++;
-	}
-	if(input[0] == '?')
+	if (input[0] == '?')
 	{
 		str = ft_strdup(ft_itoa(g_status)); // set golbal variable | make a function to turn a number to string
 		g_status = 0;
@@ -33,14 +31,12 @@ void	*serachforvar(char *input, s_env **env)
 	str = ft_substr(input , 0, len);
 	while (tmp)
 	{
-		if(ft_strcmp(str, tmp->data) == 0)
+		if (ft_strcmp(str, tmp->data) == 0)
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	if (tmp == NULL)
-	{
 		return (NULL);
-	}
 	free (str);
 	return (NULL);
 }
@@ -91,9 +87,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 	i += 1;
 	
 	while( str[i] && ft_isspace(str[i]))
-	{
 		i++;
-	}
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token '|'\n");
