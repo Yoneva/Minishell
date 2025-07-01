@@ -6,15 +6,15 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:10:33 by user              #+#    #+#             */
-/*   Updated: 2025/06/21 17:27:02 by user             ###   ########.fr       */
+/*   Updated: 2025/07/01 21:36:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int nlen(int nbr)
+int	nlen(int nbr)
 {
-    int i;
+	int	i;
 
     if (nbr == 0)
         return (1);
@@ -36,16 +36,16 @@ int ft_abs(int nbr)
 
 char	*ft_itoa(int nbr)
 {
-    char *cnum;
-    int len;
-    int i;
+	char	*cnum;
+	int		len;
+	int		i;
 
     len = nlen(nbr);
     i = 0;
     if (nbr < 0)
         i++;
     len = len + i;
-    cnum = (char *)malloc(sizeof(char) * (len + 1));
+    cnum = malloc(len + 1);
     if (!cnum)
         return (NULL);
     cnum[0] = '-';
