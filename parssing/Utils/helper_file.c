@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/24 20:58:14 by user             ###   ########.fr       */
+/*   Updated: 2025/07/01 21:33:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj daw
 	if (str[i] != '"')
 		return (-1);
 	seg = substr_quotes(str, j, i - j, 0);
-	seg = replace_in_double(seg, env);
+	seg = replace_in_double(0, 0, seg, env);
 	*tmp = ft_strjoin(*word, seg);
 	free(*word);
 	free(seg);
@@ -109,7 +109,7 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 	}
 	(*cmd)->type = N_PIPE;
 	(*cmd)->value = ft_strdup("|");
-	return (i + 1);
+	return (i);
 }
 
 int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && output
@@ -183,3 +183,4 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 	}
 	return (i);
 }
+

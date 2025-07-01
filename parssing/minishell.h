@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/21 18:19:02 by user             ###   ########.fr       */
+/*   Updated: 2025/07/01 21:36:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_redir
 	int		type;       /* R_IN, R_OUT, etc. */
 	char	*filename;   /* target file or heredoc limiter */
 	int		fd;         /* fd to dup to (0=stdin,1=stdout) */
-}	t_redir;
+}	t_redir ;
 
 typedef struct s_cmd
 {
@@ -56,7 +56,7 @@ typedef struct s_cmd
 	int				n_redir;    /* number of redirections */
 	int				builtin_id; /* index in dispatch table or -1 */
 	struct s_cmd	*next;  /* next command in pipeline */
-}	t_cmd;
+}	t_cmd ;
 
 typedef struct f_tokens {
 	enum t_sign 	type;
@@ -74,7 +74,7 @@ int			exec_pipeline(t_cmd *first, s_env **env);
 int			get_heredoc_fd(const char *limiter);
 void		*ft_realloc(void *str, size_t newsize);
 char    	*ft_itoa(int nbr);
-char		*replace_in_double(char *input, s_env **env);
+char		*replace_in_double(int i , int j, char *input, s_env **env);
 
 // for cmd struct
 t_cmd		*parse_cmd(s_tokens *tokens);

@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/24 21:39:43 by user             ###   ########.fr       */
+/*   Updated: 2025/07/01 21:44:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$' || str[i] == '?'))
 		i++;
 	seg = ft_substr(str, j, i - j);
-	seg = replace_in_double(seg, env);
+	seg = replace_in_double(0, 0, seg, env);
 	if (!seg)
 	{
-		if  (str[i] == '.')
+		if (str[i] == '.')
 		{
-			while(str[i] != ' ')
+			while (str[i] != ' ')
 				i++;
 		}
 		free(seg);
@@ -48,11 +48,13 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	*word = *tmp;
 	return (i);
 }
+
 int	first_case(s_tokens **node, char* input, s_tokens **cmd)
 {	
-	int			i = 0;
-	static int			j;
+	int			i;
+	static int	j;
 	
+	i = 0;
 	*node = ft_tokenew();
 	if (input[i] == '|')
 	{
@@ -70,15 +72,15 @@ int	first_case(s_tokens **node, char* input, s_tokens **cmd)
 		i = redirections1(input, i, node);
 	if (i < 0)
 		return (-1);
-	ft_tokenadd_back(cmd,*node);
+	ft_tokenadd_back(cmd, *node);
 	j = 1;
 	return (i);
 }
-int	second_case()
-{
-	int j;
-	int i;
-}
+// int	second_case()
+// {
+// 	int j;
+// 	int i;
+// }
 void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 {
 	int			i = 0;

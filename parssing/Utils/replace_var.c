@@ -6,32 +6,53 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/24 21:01:36 by user             ###   ########.fr       */
+/*   Updated: 2025/07/01 21:29:09 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*replace_in_double(char *input, s_env **env)
+void	*helper_fun(int i, const char *input, char *result)
+{
+	char *s;
+	
+	s = malloc(2);
+	if (!s)
+		return NULL;
+	s[0] = input[i];
+	s[1] = '\0';
+	result = ft_strjoin(result, s);  // add char to result
+	free(s);
+	return (result);
+}
+
+void *if_dollar_sign(int i, char *result, char *input, s_env **env)
+{
+	char	*tmp;
+
+	i += 1;
+	tmp = serachforvar(input + i, env); // Search for variable in env list
+	if (tmp)
+		return (ft_strjoin(result, tmp)); // Add value to result
+	else
+		return NULL;
+}
+
+char	*replace_in_double(int i , int j, char *input, s_env **env)
 {
 	char	*result; // Initialize empty result string
-	char	*tmp;
-	int		i;
-	int		j;
 	
-	result = ft_strdup(""); 
 	i = 0;
+	result = ft_strdup(""); 
 	while (input[i])
 	{
 		if (input[i] == '$')          // Found variable start
 		{
-			i += 1;
+			result = if_dollar_sign(i, result, input, env);
+			if (!result)
+				return (NULL);
 			j = i;
-			tmp = serachforvar(input + i, env); // Search for variable in env list
-			if (tmp)
-				result = ft_strjoin(result, tmp); // Add value to result
-			else
-				return NULL;
+			i += 1;
 			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_' || input[j] == '?'))
 				i++;  // skip variable name
 		}
@@ -39,13 +60,7 @@ char	*replace_in_double(char *input, s_env **env)
 			break ;
 		else // Regular character
 		{
-			char *s = malloc(2);
-			if (!s)
-				return NULL;
-			s[0] = input[i];
-			s[1] = '\0';
-			result = ft_strjoin(result, s);  // add char to result
-			free(s);
+			result = helper_fun(i, input, result);
 			i++;
 		}
 	}
