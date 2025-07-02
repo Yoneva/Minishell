@@ -4,7 +4,7 @@
 
 int	g_status = 0;
 
-static void setup_child_pipes(int prev[2], int next[2], int i, int is_last)
+static void setup_child_pipes(int prev[2], int next[2], int i, int it_last)
 {
     if (i > 0 && prev[0] >= 0)
     {
@@ -12,7 +12,7 @@ static void setup_child_pipes(int prev[2], int next[2], int i, int is_last)
         close(prev[0]);
         close(prev[1]);
     }
-    if (!is_last && next[1] >= 0)
+    if (!it_last && next[1] >= 0)
     {
         dup2(next[1], STDOUT_FILENO);
         close(next[0]);
@@ -20,7 +20,7 @@ static void setup_child_pipes(int prev[2], int next[2], int i, int is_last)
     }
 }
 
-static void execute_command(t_cmd **cmd, s_env **env)
+static void execute_command(t_cmd **cmd, t_env **env)
 {
     apply_redirs(*cmd);
     if ((*cmd)->builtin_id >= 0)
@@ -31,14 +31,14 @@ static void execute_command(t_cmd **cmd, s_env **env)
     exit(127);
 }
 
-static void close_parent_pipes(int prev[2], int next[2], int i, int is_last)
+static void close_parent_pipes(int prev[2], int next[2], int i, int it_last)
 {
     if (i > 0)
     {
         close(prev[0]);
         close(prev[1]);
     }
-    if (!is_last)
+    if (!it_last)
     {
         prev[0] = next[0];  // Close read end in parent
         prev[1] = next[1];  // Close write end in parent
@@ -48,10 +48,10 @@ static void close_parent_pipes(int prev[2], int next[2], int i, int is_last)
 static int create_process(t_cmd *cmd, int next[2])
 {
     pid_t pid;
-    int is_last;
+    int it_last;
     
-    is_last = (cmd->next == NULL);
-    if (!is_last && pipe(next) == -1)
+    it_last = (cmd->next == NULL);
+    if (!it_last && pipe(next) == -1)
         return (perror("pipe"), -1);
     
     pid = fork();
@@ -60,7 +60,7 @@ static int create_process(t_cmd *cmd, int next[2])
     return pid;
 }
 
-int	exec_pipeline(t_cmd *first, s_env **env)
+int	exec_pipeline(t_cmd *first, t_env **env)
 {
     int prev[2], next[2], status, i;
     pid_t pid;

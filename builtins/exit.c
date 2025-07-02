@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-int	bi_exit(t_cmd *c, s_env **env)
+int	bi_exit(t_cmd *c, t_env **env)
 {
     int code;
 

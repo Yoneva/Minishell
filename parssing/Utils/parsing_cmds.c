@@ -1,13 +1,13 @@
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
 
-static int  is_redir(int sign)
+static int  it_redir(int sign)
 {
     return (sign == N_INPUT_SIGN || sign == N_OUTPUT_SIGN
             || sign == N_APPEND_SIGN || sign == N_HEREDOC_SIGN);
 }
 
-static int count_args(s_tokens *tok)
+static int count_args(t_tokens *tok)
 {
     int count;
     
@@ -22,14 +22,14 @@ static int count_args(s_tokens *tok)
     return count;
 }
 
-static int count_redirs(s_tokens *tok)
+static int count_redirs(t_tokens *tok)
 {
     int count;
 
     count = 0;
     while (tok && tok->type != N_PIPE)
     {
-        if (is_redir(tok->type))
+        if (it_redir(tok->type))
             count++;
         tok = tok->next;
     }
@@ -69,23 +69,23 @@ static void init_cmd_struct(t_cmd *cmd, int argc, int rcount)
     cmd->next = NULL;
 }
 
-static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
+static void fill_cmd_struct(t_cmd *cmd, t_tokens **tokp)
 {
-    int args_i;
-    int redirs_i;
-    s_tokens *tok;
+    int argt_i;
+    int redirt_i;
+    t_tokens *tok;
 
 	if (!tokp)
 		return ; // to be handled
     tok = *tokp;
-    args_i = 0;
-    redirs_i = 0;
+    argt_i = 0;
+    redirt_i = 0;
     while (tok && tok->type != N_PIPE)
     {
         if (tok->type == N_WORD || tok->type == N_DOUBLE_QUOTE
             || tok->type == N_SINGLE_QUOTE)
-            cmd->argv[args_i++] = ft_strdup(tok->value);
-        else if (is_redir(tok->type))
+            cmd->argv[argt_i++] = ft_strdup(tok->value);
+        else if (it_redir(tok->type))
         {
             if (!tok->next || tok->next->type == N_PIPE)
             {
@@ -94,14 +94,14 @@ static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
                 return ; // should handle syntax error
             }
             
-            cmd->redir[redirs_i].type = tok->type;
+            cmd->redir[redirt_i].type = tok->type;
             tok = tok->next;
-            cmd->redir[redirs_i++].filename = ft_strdup(tok->value);
+            cmd->redir[redirt_i++].filename = ft_strdup(tok->value);
         }
         tok = tok->next;
     }
-    cmd->argv[args_i] = NULL;
-    cmd->n_redir = redirs_i;
+    cmd->argv[argt_i] = NULL;
+    cmd->n_redir = redirt_i;
     // Set builtin_id if we have a command
     if (cmd->argv[0])
         cmd->builtin_id = builtin_id(cmd->argv[0]);
@@ -111,7 +111,7 @@ static void fill_cmd_struct(t_cmd *cmd, s_tokens **tokp)
     *tokp = tok;
 }
 
-static t_cmd *build_one_cmd(s_tokens **tokens)
+static t_cmd *build_one_cmd(t_tokens **tokens)
 {
     t_cmd   *cmd;
     int     argc;
@@ -127,7 +127,7 @@ static t_cmd *build_one_cmd(s_tokens **tokens)
     return (cmd);
 }
 
-t_cmd *parse_cmd(s_tokens *tokens)
+t_cmd *parse_cmd(t_tokens *tokens)
 {
     t_cmd *head;
     t_cmd *prev;

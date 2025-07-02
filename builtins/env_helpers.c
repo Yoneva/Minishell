@@ -1,11 +1,11 @@
 #include "builtins.h"
 #include "../parssing/minishell.h"
 
-void sort_env_vars(s_env **env_array, int count)
+void sort_env_vars(t_env **env_array, int count)
 {
     int     i;
     int     j;
-    s_env   *temp;
+    t_env   *temp;
 
     i = 0;
     while (i < count - 1)
@@ -25,12 +25,12 @@ void sort_env_vars(s_env **env_array, int count)
     }
 }
 
-int count_env_vars(s_env *env)
+int count_env_vars(t_env *env)
 {
     int count;
 
     count = 0;
-    s_env *node = env;
+    t_env *node = env;
     while (node)
     {
         count++;
@@ -40,7 +40,7 @@ int count_env_vars(s_env *env)
     
 }
 
-s_env *find_env_node(s_env *env, const char *key)
+t_env *find_env_node(t_env *env, const char *key)
 {
     while (env)
     {
@@ -51,9 +51,9 @@ s_env *find_env_node(s_env *env, const char *key)
     return (NULL);
 }
 
-void set_env_var(s_env **env, const char *k, const char *v)
+void set_env_var(t_env **env, const char *k, const char *v)
 {
-    s_env *node;
+    t_env *node;
 
     node = find_env_node(*env, k);
     if (node)
@@ -63,17 +63,17 @@ void set_env_var(s_env **env, const char *k, const char *v)
     }
     else
     {
-        s_env *new = ft_envnew();
+        t_env *new = ft_envnew();
         new->data = ft_strdup(k);
         new->value = ft_strdup(v);
         ft_envadd_back(env, new);
     }
 }
 
-void unset_env_var(s_env **env, const char *key)
+void unset_env_var(t_env **env, const char *key)
 {
-    s_env *prev = NULL;
-    s_env *curr = *env;
+    t_env *prev = NULL;
+    t_env *curr = *env;
 
     while (curr)
     {

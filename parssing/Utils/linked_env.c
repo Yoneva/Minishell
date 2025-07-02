@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   linked_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/24 21:05:56 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:13:34 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_env	*ft_envnew(void)
+t_env	*ft_envnew(void)
 {
-	s_env	*node;
+	t_env	*node;
 
-	node = malloc(sizeof(s_env));
+	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
 	node->next = NULL;
 	return (node);
 }
 
-s_env	*ft_envlast(s_env *lst)
+t_env	*ft_envlast(t_env *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -34,9 +34,9 @@ s_env	*ft_envlast(s_env *lst)
 	return (lst);
 }
 
-void	ft_envadd_back(s_env **lst, s_env *new_node)
+void	ft_envadd_back(t_env **lst, t_env *new_node)
 {
-	s_env	*g;
+	t_env	*g;
 
 	if (!lst || !new_node)
 		return ;
@@ -49,10 +49,10 @@ void	ft_envadd_back(s_env **lst, s_env *new_node)
 	g->next = new_node;
 }
 
-void	ft_envclear(s_env **lst)
+void	ft_envclear(t_env **lst)
 {
-	s_env	*next;
-	s_env	*current;
+	t_env	*next;
+	t_env	*current;
 
 	if (!lst)
 		return ;

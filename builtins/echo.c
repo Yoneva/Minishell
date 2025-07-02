@@ -1,7 +1,7 @@
 #include "builtins.h"
 #include "../parssing/minishell.h"
 
-static int is_n_flag(const char *flag)
+static int it_n_flag(const char *flag)
 {
 	int i;
 
@@ -13,7 +13,7 @@ static int is_n_flag(const char *flag)
 	return (flag[i] == '\0');
 	
 }
-int	bi_echo(t_cmd *c, s_env **env)
+int	bi_echo(t_cmd *c, t_env **env)
 {
 	int		i;
 	int		nl;
@@ -21,7 +21,7 @@ int	bi_echo(t_cmd *c, s_env **env)
 	(void)env;
 	i = 1;
 	nl = 1;
-	while (c->argv[i] && is_n_flag(c->argv[i]))
+	while (c->argv[i] && it_n_flag(c->argv[i]))
 	{
 		nl = 0;
 		i++;

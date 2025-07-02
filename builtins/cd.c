@@ -1,7 +1,7 @@
 #include "builtins.h"
 #include "../parssing/minishell.h"
 
-int bi_cd(t_cmd *cmd, s_env **env)
+int bi_cd(t_cmd *cmd, t_env **env)
 {
     char *target;
     char *oldpwd;

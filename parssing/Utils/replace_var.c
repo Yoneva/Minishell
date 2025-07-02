@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:29:09 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:13:46 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	*helper_fun(int i, const char *input, char *result)
 {
-	char *s;
-	
+	char	*s;
+
 	s = malloc(2);
 	if (!s)
-		return NULL;
+		return (NULL);
 	s[0] = input[i];
 	s[1] = '\0';
-	result = ft_strjoin(result, s);  // add char to result
+	result = ft_strjoin(result, s);// add char to result
 	free(s);
 	return (result);
 }
 
-void *if_dollar_sign(int i, char *result, char *input, s_env **env)
+void	*if_dollar_sign(int i, char *result, char *input, t_env **env)
 {
 	char	*tmp;
 
@@ -35,28 +35,29 @@ void *if_dollar_sign(int i, char *result, char *input, s_env **env)
 	if (tmp)
 		return (ft_strjoin(result, tmp)); // Add value to result
 	else
-		return NULL;
+		return (NULL);
 }
 
-char	*replace_in_double(int i , int j, char *input, s_env **env)
+char	*replace_in_double(int i, int j, char *input, t_env **env)
 {
-	char	*result; // Initialize empty result string
-	
+	char	*result;// Initialize empty result string
+
 	i = 0;
 	result = ft_strdup(""); 
 	while (input[i])
 	{
-		if (input[i] == '$')          // Found variable start
+		if (input[i] == '$')// Found variable start
 		{
 			result = if_dollar_sign(i, result, input, env);
 			if (!result)
 				return (NULL);
 			j = i;
 			i += 1;
-			while (input[i] && (ft_isalnum(input[i]) || input[i] == '_' || input[j] == '?'))
-				i++;  // skip variable name
+			while (input[i] && (ft_isalnum(input[i]) 
+					|| input[i] == '_' || input[j] == '?'))
+				i++;// skip variable name
 		}
-		else if(input[i] == '"')
+		else if (input[i] == '"')
 			break ;
 		else // Regular character
 		{
@@ -69,7 +70,7 @@ char	*replace_in_double(int i , int j, char *input, s_env **env)
 
 // int main()
 // {
-// 	s_env *env = malloc(sizeof(s_env));
+// 	t_env *env = malloc(sizeof(t_env));
 // 	env->data = ft_strdup("USER");
 // 	env->value = ft_strdup("amal42");
 // 	env->next = NULL;

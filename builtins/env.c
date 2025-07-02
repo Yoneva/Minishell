@@ -1,9 +1,9 @@
 #include "builtins.h"
 #include "../parssing/minishell.h"
 
-int bi_env(t_cmd *cmd, s_env **env)
+int bi_env(t_cmd *cmd, t_env **env)
 {
-    s_env *node;
+    t_env *node;
 
     (void)cmd;
     node = *env;

@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   helper_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:33:39 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:13:27 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	*serachforvar(char *input, s_env **env)
+void	*serachforvar(char *input, t_env **env)
 {
 	char	*str;
-	s_env	*tmp;
+	t_env	*tmp;
 	int		len;
-	
+
 	tmp = *env;
 	len = 0;
-	while (input[len] && (ft_isalnum(input[len]) || input[len] == '_') && input[len] != '?')
+	while (input[len] && (ft_isalnum(input[len]) 
+			|| input[len] == '_') && input[len] != '?')
 		len++;
 	if (input[0] == '?')
 	{
-		str = ft_strdup(ft_itoa(g_status)); // set golbal variable | make a function to turn a number to string
+		str = ft_strdup(ft_itoa(g_status));
 		g_status = 0;
-		return str;
+		return (str);
 	}
-	str = ft_substr(input , 0, len);
+	str = ft_substr(input, 0, len);
 	while (tmp)
 	{
 		if (ft_strcmp(str, tmp->data) == 0)
@@ -40,9 +41,10 @@ void	*serachforvar(char *input, s_env **env)
 	free (str);
 	return (NULL);
 }
+
 int	single_quote(char *str, char **word, char **tmp)
 {
-	int 	j;
+	int		j;
 	int		i;
 	char	*seg;
 
@@ -60,11 +62,12 @@ int	single_quote(char *str, char **word, char **tmp)
 	return (i + 1);
 }
 
-int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj dawyin ela rasehm
+int	double_quote(char *str, char **word, char **tmp, t_env **env)
 {
 	int		i;
 	int		j;
 	char	*seg;
+
 	i = 1;
 	j = i;
 	if (!str[i])
@@ -82,11 +85,11 @@ int	double_quote(char *str, char **word, char **tmp, s_env **env) // had joj daw
 	return (i + 1);
 }
 
-int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
+int	pipes(const char *str, int i, t_tokens **cmd) // For pipe
 {
 	i += 1;
-	
-	while( str[i] && ft_isspace(str[i]))
+
+	while (str[i] && ft_isspace(str[i]))
 		i++;
 	if (str[i] == 0)
 	{
@@ -105,14 +108,14 @@ int	pipes(const char *str, int i, s_tokens **cmd) // For pipe
 			return (-1);
 		}
 		else
-			break;
+			break ;
 	}
 	(*cmd)->type = N_PIPE;
 	(*cmd)->value = ft_strdup("|");
 	return (i);
 }
 
-int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && output
+int	redirections1(const char *str, int i, t_tokens **cmd) // For append mode && output
 {
 	if (str[i + 1] == '>')
 	{
@@ -132,9 +135,9 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 		g_status = 258;
 		return (-1);
 	}
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == 0)
+		if (str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token 'newline'\n");
 			g_status = 258;
@@ -143,14 +146,14 @@ int	redirections1(const char *str, int i, s_tokens **cmd) // For append mode && 
 		else if (str[i] == ' ')
 			i++;
 		else
-			break;
+			break ;
 	}
 	return (i);
 }
 
-int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redirection && input
+int	redirections2(const char *str, int i, t_tokens **cmd) // For delimiter redirection && input
 {
-	if(str[i + 1] == '<')
+	if (str[i + 1] == '<')
 	{
 		(*cmd)->type = N_HEREDOC_SIGN;
 		(*cmd)->value = ft_strdup("<<");
@@ -168,9 +171,9 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 		g_status = 258;
 		return (-1);
 	}
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == 0)
+		if (str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token 'newline'\n");
 			g_status = 258;
@@ -179,8 +182,7 @@ int	redirections2(const char *str, int i, s_tokens **cmd) // For delimiter redir
 		else if (str[i] == ' ')
 			i++;
 		else
-			break;
+			break ;
 	}
 	return (i);
 }
-

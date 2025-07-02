@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:36:54 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:28:50 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern int g_status;
+extern int	g_status;
 
-enum t_sign {
+enum e_sign {
 	N_PIPE,
 	N_DOUBLE_QUOTE,
 	N_SINGLE_QUOTE,
@@ -40,63 +40,62 @@ typedef struct f_env {
 	char			*data;
 	char			*value;
 	struct f_env	*next;
-}	s_env ; // this is the strcut where the enviroment variables are stored
+}	t_env;
 
-typedef struct s_redir
-{
-	int		type;       /* R_IN, R_OUT, etc. */
-	char	*filename;   /* target file or heredoc limiter */
-	int		fd;         /* fd to dup to (0=stdin,1=stdout) */
-}	t_redir ;
+typedef struct t_redir {
+	int		type;
+	char	*filename;
+	int		fd;
+}	t_redir;
 
-typedef struct s_cmd
-{
-	char			**argv;      /* NULL-terminated argument array */
-	t_redir			*redir;      /* array of redirections */
-	int				n_redir;    /* number of redirections */
-	int				builtin_id; /* index in dispatch table or -1 */
-	struct s_cmd	*next;  /* next command in pipeline */
-}	t_cmd ;
+typedef struct t_cmd {
+	char			**argv;
+	t_redir			*redir;
+	int				n_redir;
+	int				builtin_id;
+	struct t_cmd	*next;
+}	t_cmd;
 
 typedef struct f_tokens {
-	enum t_sign 	type;
+	enum e_sign		type;
 	char			*value;
 	struct f_tokens	*next;
-}	s_tokens ; //this struct is used to tokenize the command elements
+}	t_tokens;
 
 int			main(int ac, char **av, char **env);
 char		**ft_split(char const *s, char c);
-int			exec_single(t_cmd **c, s_env **env);
-void		tokenize_shell(char* input, s_tokens **cmd, s_env **listed);
+int			exec_single(t_cmd **c, t_env **env);
+void		tokenize_shell(char *input, t_tokens **cmd, t_env **listed);
 int			ft_strcmp(const char *s1, const char *s2);
-char		*substr_quotes(char const *s, unsigned int start, size_t len, size_t i);
-int			exec_pipeline(t_cmd *first, s_env **env);
+char		*substr_quotes(char const *s, unsigned int start,
+				size_t len, size_t i);
+int			exec_pipeline(t_cmd *first, t_env **env);
 int			get_heredoc_fd(const char *limiter);
 void		*ft_realloc(void *str, size_t newsize);
-char    	*ft_itoa(int nbr);
-char		*replace_in_double(int i , int j, char *input, s_env **env);
+char		*ft_itoa(int nbr);
+char		*replace_in_double(int i, int j, char *input, t_env **env);
 
 // for cmd struct
-t_cmd		*parse_cmd(s_tokens *tokens);
+t_cmd		*parse_cmd(t_tokens *tokens);
 void		free_cmd(t_cmd **cmd);
 
 // for env struct
-s_env		*ft_envlast(s_env *lst);
-void		ft_envadd_back(s_env **lst, s_env *new_node);
-s_env		*ft_envnew(void);
-void		ft_envclear(s_env **lst);
-void		fill_env_list(char **env, s_env **list);
-void		*serachforvar(char *input, s_env **env);
+t_env		*ft_envlast(t_env *lst);
+void		ft_envadd_back(t_env **lst, t_env *new_node);
+t_env		*ft_envnew(void);
+void		ft_envclear(t_env **lst);
+void		fill_env_list(char **env, t_env **list);
+void		*serachforvar(char *input, t_env **env);
 
 // for tokens struct
-s_tokens	*ft_tokenlast(s_tokens *lst);
-void		ft_tokenadd_back(s_tokens **lst, s_tokens *new_node);
-s_tokens	*ft_tokenew(void);
-void		ft_tokensclear(s_tokens **lst);
-int			single_quote(char *str, char **, char **tmp);
-int			double_quote(char *str, char **word, char **tmp, s_env **);
-int			pipes(const char *str, int i, s_tokens **cmd);
-int			redirections1(const char *str, int i, s_tokens **cmd);
-int			redirections2(const char *str, int i, s_tokens **cmd);
+t_tokens	*ft_tokenlast(t_tokens *lst);
+void		ft_tokenadd_back(t_tokens **lst, t_tokens *new_node);
+t_tokens	*ft_tokenew(void);
+void		ft_tokensclear(t_tokens **lst);
+int			single_quote(char *str, char **h, char **tmp);
+int			double_quote(char *str, char **word, char **tmp, t_env **h);
+int			pipes(const char *str, int i, t_tokens **cmd);
+int			redirections1(const char *str, int i, t_tokens **cmd);
+int			redirections2(const char *str, int i, t_tokens **cmd);
 
 #endif

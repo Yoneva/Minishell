@@ -1,14 +1,14 @@
 #include "exec.h"
 #include "../builtins/builtins.h"
 
-void	exec_external(t_cmd **c, s_env **env, char **envp)
+void	exec_external(t_cmd **c, t_env **env, char **envp)
 {
 	int		i;
 	char	**paths;
 	char	*path_val;
 	char	*try;
 	char	*tmp;
-	s_env	*node;
+	t_env	*node;
 
     if (!c || !*c || !(*c)->argv || !(*c)->argv[0])
         cleanup_and_exit(env, c, 1);
@@ -40,7 +40,7 @@ void	exec_external(t_cmd **c, s_env **env, char **envp)
 	cleanup_and_exit(env, c, 127);
 }
 
-int	exec_single(t_cmd **c, s_env **env)
+int	exec_single(t_cmd **c, t_env **env)
 {
 	pid_t	pid;
 	int		status;

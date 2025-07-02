@@ -26,7 +26,7 @@ void	free_cmd(t_cmd **cmd)
 	}
 }
 
-void	cleanup_and_exit(s_env **env, t_cmd **cmd, int n)
+void	cleanup_and_exit(t_env **env, t_cmd **cmd, int n)
 {
     free_cmd(cmd);
     ft_envclear(env);

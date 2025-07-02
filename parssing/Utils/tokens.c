@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:44:36 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:30:11 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
 
-void	error(char *input, s_tokens **cmd, s_env **listed)
+void	error(char *input, t_tokens **cmd, t_env **listed)
 {
 	ft_tokensclear(cmd);
 	ft_envclear(listed);
 	free(input);
 }
 
-int	if_envariable(char *str, char **word, char **tmp, s_env **env)
+int	if_envariable(char *str, char **word, char **tmp, t_env **env)
 {
-	int 	j;
+	int		j;
 	int		i;
 	char	*seg;
-	
+
 	i = 0;
 	j = i;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$' || str[i] == '?'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || 
+			str[i] == '$' || str[i] == '?'))
 		i++;
 	seg = ft_substr(str, j, i - j);
 	seg = replace_in_double(0, 0, seg, env);
@@ -49,11 +50,11 @@ int	if_envariable(char *str, char **word, char **tmp, s_env **env)
 	return (i);
 }
 
-int	first_case(s_tokens **node, char* input, s_tokens **cmd)
-{	
+int	first_case(t_tokens **node, char *input, t_tokens **cmd)
+{
 	int			i;
 	static int	j;
-	
+
 	i = 0;
 	*node = ft_tokenew();
 	if (input[i] == '|')
@@ -62,9 +63,9 @@ int	first_case(s_tokens **node, char* input, s_tokens **cmd)
 		{
 			printf("minishell: syntax error near unexpected token '|'\n");
 			g_status = 285;
-			return(-1);
+			return (-1);
 		}
-		i =	pipes(input, i, node);
+		i = pipes(input, i, node);
 	}
 	else if (input[i] == '<')
 		i = redirections2(input, i, node);
@@ -76,19 +77,22 @@ int	first_case(s_tokens **node, char* input, s_tokens **cmd)
 	j = 1;
 	return (i);
 }
+
 // int	second_case()
 // {
 // 	int j;
 // 	int i;
 // }
-void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
+void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 {
-	int			i = 0;
-	int			j = 0;
+	int			i;
+	int			j;
 	char		*word;
-	s_tokens	*node;
+	t_tokens	*node;
 	char		*tmp;
 
+	i = 0;
+	j = 0;
 	if (!input)
 	{
 		error(input, cmd, listed);
@@ -97,10 +101,10 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 	j = 0;
 	while (input[i])
 	{
-		if(ft_isspace((unsigned char)input[i]))
+		if (ft_isspace((unsigned char)input[i]))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
@@ -108,10 +112,10 @@ void	tokenize_shell(char* input, s_tokens **cmd, s_env **listed)
 			if (j < 0)
 			{
 				error(input, cmd, listed);
-				return;
+				return ;
 			}
 			i += j;
-			continue;
+			continue ;
 		}
 		node = ft_tokenew();
 		node->type = N_WORD;

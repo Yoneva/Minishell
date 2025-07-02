@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   linked_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:14:55 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:36:39 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:30:07 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-s_tokens	*ft_tokenew(void)
+t_tokens	*ft_tokenew(void)
 {
- 	s_tokens	*node;
+	t_tokens	*node;
 
- 	node = malloc(sizeof(s_tokens));
- 	if (!node)
- 		return (NULL);
- 	node->value = NULL;
- 	node->type = 0;
- 	node->next = NULL;
+	node = malloc(sizeof(t_tokens));
+	if (!node)
+		return (NULL);
+	node->value = NULL;
+	node->type = 0;
+	node->next = NULL;
 	return (node);
 }
 
-s_tokens	*ft_tokenlast(s_tokens *lst)
+t_tokens	*ft_tokenlast(t_tokens *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -36,9 +36,9 @@ s_tokens	*ft_tokenlast(s_tokens *lst)
 	return (lst);
 }
 
-void	ft_tokenadd_back(s_tokens **lst, s_tokens *new_node)
+void	ft_tokenadd_back(t_tokens **lst, t_tokens *new_node)
 {
-	s_tokens	*g;
+	t_tokens	*g;
 
 	if (!lst || !new_node)
 		return ;
@@ -51,10 +51,10 @@ void	ft_tokenadd_back(s_tokens **lst, s_tokens *new_node)
 	g->next = new_node;
 }
 
-void	ft_tokensclear(s_tokens **lst)
+void	ft_tokensclear(t_tokens **lst)
 {
-	s_tokens	*next;
-	s_tokens	*current;
+	t_tokens	*next;
+	t_tokens	*current;
 
 	if (lst == NULL || (*lst) == NULL)
 		return ;

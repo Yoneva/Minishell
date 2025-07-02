@@ -1,19 +1,19 @@
 #include "builtins.h"
 #include "../parssing/minishell.h"
 
-int   bi_export(t_cmd *c, s_env **env)
+int   bi_export(t_cmd *c, t_env **env)
 {
     int     i;
     char    *eq;
     int     count;
-    s_env   **env_array = NULL;
-    s_env   *node;
+    t_env   **env_array = NULL;
+    t_env   *node;
 
     i = 1;
     if (!c->argv[i])
     {
         count = count_env_vars(*env);
-        env_array = malloc(sizeof(s_env*) * count);
+        env_array = malloc(sizeof(t_env*) * count);
         if (!env_array)
         {
             perror("export: malloc");

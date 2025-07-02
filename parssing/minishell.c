@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/06/24 21:01:23 by user             ###   ########.fr       */
+/*   Updated: 2025/07/02 07:31:02 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	find_tosawi(char *str)
 	return (0);
 }
 
-void	fill_env_list(char **env, s_env **list)
+void	fill_env_list(char **env, t_env **list)
 {
 	int		tmp;
 	int		i;
-	s_env	*node;
+	t_env	*node;
 
 	i = 0;
 	while (env[i])
@@ -48,7 +48,7 @@ void	fill_env_list(char **env, s_env **list)
 			exit(0);
 		}
 		node->data = ft_substr(env[i], 0, tmp);
-		node->value = ft_substr(env[i],tmp + 1, ft_strlen(env[i]) - tmp);
+		node->value = ft_substr(env[i], tmp + 1, ft_strlen(env[i]) - tmp);
 		ft_envadd_back(list, node);
 		node = node->next;
 		i++;
@@ -57,11 +57,11 @@ void	fill_env_list(char **env, s_env **list)
 
 int	main(int ac, char **av, char **env)
 {
-	s_env		*listed;
-	s_tokens	*tokens;
+	t_env		*listed;
+	t_tokens	*tokens;
 	t_cmd		*commands ;
 	char		*cmd;
-	
+
 	(void)av;
 	(void)ac;
 	listed = NULL;
@@ -80,12 +80,12 @@ int	main(int ac, char **av, char **env)
 		if (*cmd == '\0')
 		{
 			free(cmd);
-			continue;
+			continue ;
 		}
 		add_history(cmd);
 		tokenize_shell(cmd, &tokens, &listed);
 		if (!tokens)
-			continue;
+			continue ;
 		commands = parse_cmd(tokens);
 		free(cmd);
 		if (!commands)
@@ -93,7 +93,7 @@ int	main(int ac, char **av, char **env)
 			fprintf(stderr, "parse_commands: empty or malloc failure\n");
 			ft_tokensclear(&tokens);
 			tokens = NULL;
-			continue;
+			continue ;
 		}
 		if (commands->next)
 			exec_pipeline(commands, &listed);

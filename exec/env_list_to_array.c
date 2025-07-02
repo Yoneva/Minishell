@@ -1,7 +1,7 @@
 #include "../parssing/minishell.h"
 
 /* count nodes */
-static int	env_len(s_env *lst)
+static int	env_len(t_env *lst)
 {
 	int	n;
 
@@ -15,7 +15,7 @@ static int	env_len(s_env *lst)
 }
 
 /* join KEY + '=' + VALUE into a freshly‑allocated string */
-static char	*join_kv(s_env *node)
+static char	*join_kv(t_env *node)
 {
 	char	*tmp;
 	char	*pair;
@@ -29,7 +29,7 @@ static char	*join_kv(s_env *node)
 }
 
 /* public helper – caller must free the array afterwards */
-char	**env_list_to_array(s_env *lst)
+char	**env_list_to_array(t_env *lst)
 {
 	char	**arr;
 	int		i;
