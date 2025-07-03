@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/02 07:28:50 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/07/03 06:38:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 
 extern int	g_status;
 
-enum e_sign {
+enum e_sign
+{
 	N_PIPE,
 	N_DOUBLE_QUOTE,
 	N_SINGLE_QUOTE,
@@ -36,19 +37,22 @@ enum e_sign {
 	N_HEREDOC_SIGN,
 };
 
-typedef struct f_env {
+typedef struct f_env
+{
 	char			*data;
 	char			*value;
 	struct f_env	*next;
 }	t_env;
 
-typedef struct t_redir {
+typedef struct t_redir
+{
 	int		type;
 	char	*filename;
 	int		fd;
 }	t_redir;
 
-typedef struct t_cmd {
+typedef struct t_cmd
+{
 	char			**argv;
 	t_redir			*redir;
 	int				n_redir;
@@ -56,13 +60,15 @@ typedef struct t_cmd {
 	struct t_cmd	*next;
 }	t_cmd;
 
-typedef struct f_tokens {
+typedef struct f_tokens
+{
 	enum e_sign		type;
 	char			*value;
 	struct f_tokens	*next;
 }	t_tokens;
 
 int			main(int ac, char **av, char **env);
+int			skip_spaces(const char *str, int i);
 char		**ft_split(char const *s, char c);
 int			exec_single(t_cmd **c, t_env **env);
 void		tokenize_shell(char *input, t_tokens **cmd, t_env **listed);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/02 07:30:11 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/07/03 06:13:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,17 @@ void	error(char *input, t_tokens **cmd, t_env **listed)
 
 int	if_envariable(char *str, char **word, char **tmp, t_env **env)
 {
-	int		j;
 	int		i;
 	char	*seg;
 
 	i = 0;
-	j = i;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || 
-			str[i] == '$' || str[i] == '?'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'
+			|| str[i] == '$' || str[i] == '?'))
 		i++;
-	seg = ft_substr(str, j, i - j);
+	seg = ft_substr(str, 0, i);
 	seg = replace_in_double(0, 0, seg, env);
 	if (!seg)
-	{
-		if (str[i] == '.')
-		{
-			while (str[i] != ' ')
-				i++;
-		}
-		free(seg);
 		seg = ft_strdup("");
-	}
 	*tmp = ft_strjoin(*word, seg);
 	free(*word);
 	free(seg);
@@ -125,7 +115,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 			error(input, cmd, listed);
 			exit (0);
 		}
-		while(input[i] && !ft_isspace(input[i]) && input[i] != '|'
+		while (input[i] && !ft_isspace(input[i]) && input[i] != '|'
 			&& input[i] != '<' && input[i] != '>')
 		{
 			if (input[i] == '\'')

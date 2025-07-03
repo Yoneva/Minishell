@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/02 07:13:46 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/07/03 06:17:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,19 @@ void	*if_dollar_sign(int i, char *result, char *input, t_env **env)
 
 char	*replace_in_double(int i, int j, char *input, t_env **env)
 {
-	char	*result;// Initialize empty result string
+	char	*result;
 
 	i = 0;
-	result = ft_strdup(""); 
+	result = ft_strdup("");
 	while (input[i])
 	{
-		if (input[i] == '$')// Found variable start
+		if (input[i] == '$')
 		{
 			result = if_dollar_sign(i, result, input, env);
 			if (!result)
 				return (NULL);
-			j = i;
-			i += 1;
-			while (input[i] && (ft_isalnum(input[i]) 
+			j = i++;
+			while (input[i] && (ft_isalnum(input[i])
 					|| input[i] == '_' || input[j] == '?'))
 				i++;// skip variable name
 		}
