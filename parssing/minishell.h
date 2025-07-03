@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/03 06:38:12 by user             ###   ########.fr       */
+/*   Updated: 2025/07/03 07:17:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int			main(int ac, char **av, char **env);
 int			skip_spaces(const char *str, int i);
 char		**ft_split(char const *s, char c);
 int			exec_single(t_cmd **c, t_env **env);
+int			if_envariable(char *str, char **word, char **tmp, t_env **env);
 void		tokenize_shell(char *input, t_tokens **cmd, t_env **listed);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*substr_quotes(char const *s, unsigned int start,
@@ -80,6 +81,9 @@ int			get_heredoc_fd(const char *limiter);
 void		*ft_realloc(void *str, size_t newsize);
 char		*ft_itoa(int nbr);
 char		*replace_in_double(int i, int j, char *input, t_env **env);
+int			process_word(char *input, int i, t_tokens **cmd, t_env **listed);
+int			first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word);
+int			process_token(char *input, int i, t_tokens **cmd, t_env **listed, int *has_word);
 
 // for cmd struct
 t_cmd		*parse_cmd(t_tokens *tokens);

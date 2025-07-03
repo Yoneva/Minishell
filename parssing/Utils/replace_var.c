@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/03 06:17:48 by user             ###   ########.fr       */
+/*   Updated: 2025/07/03 07:23:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,28 @@ char	*replace_in_double(int i, int j, char *input, t_env **env)
 		}
 	}
 	return (result);
+}
+
+int	process_token(char *input, int i, t_tokens **cmd, t_env **listed, int *has_word)
+{
+	int			j;
+	t_tokens	*node;
+
+	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+	{
+		j = first_case(&node, input + i, cmd, has_word);
+		if (j < 0)
+			return (-1);
+		return (i + j);
+	}
+	else
+	{
+		j = process_word(input, i, cmd, listed);
+		if (j < 0)
+			return (-1);
+		*has_word = 1;
+		return (j);
+	}
 }
 
 // int main()
