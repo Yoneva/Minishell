@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/01 21:36:54 by user             ###   ########.fr       */
+/*   Updated: 2025/07/03 05:50:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct f_tokens {
 }	s_tokens ; //this struct is used to tokenize the command elements
 
 int			main(int ac, char **av, char **env);
+int			skip_spaces(const char *str, int i);
 char		**ft_split(char const *s, char c);
 int			exec_single(t_cmd **c, s_env **env);
 void		tokenize_shell(char* input, s_tokens **cmd, s_env **listed);
