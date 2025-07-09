@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/03 07:19:04 by user             ###   ########.fr       */
+/*   Updated: 2025/07/09 18:20:44 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,26 @@ void	error(char *input, t_tokens **cmd, t_env **listed)
 	free(input);
 }
 
-int	if_envariable(char *str, char **word, char **tmp, t_env **env)
+int	if_envariable(char *str, char **word, t_env **env)
 {
 	int		i;
+	char	*replaced;
 	char	*seg;
+	char	*tmp;
 
 	i = 0;
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'
 			|| str[i] == '$' || str[i] == '?'))
 		i++;
 	seg = ft_substr(str, 0, i);
-	seg = replace_in_double(0, 0, seg, env);
-	if (!seg)
-		seg = ft_strdup("");
-	*tmp = ft_strjoin(*word, seg);
-	free(*word);
+	replaced = replace_in_double(0, 0, seg, env);
 	free(seg);
-	*word = *tmp;
+	if (!replaced)
+		seg = ft_strdup("");
+	tmp = ft_strjoin(*word, replaced);
+	free(*word);
+	free(replaced);
+	*word = tmp;
 	return (i);
 }
 
@@ -72,12 +75,14 @@ int	first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word)
 
 void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 {
-	int	i;
-	int	j;
-	int	has_word;
+	int				i;
+	int				j;
+	t_token_context	ctx;
 
 	i = 0;
-	has_word = 0;
+	ctx.has_word = 0;
+	ctx.listed = listed;
+	ctx.cmd = cmd;
 	if (!input)
 		return (error(input, cmd, listed));
 	while (input[i])
@@ -86,7 +91,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 			i++;
 		else
 		{
-			j = process_token(input, i, cmd, listed, &has_word);
+			j = process_token(input, i, &ctx);
 			if (j < 0)
 				return (error(input, cmd, listed));
 			i = j;

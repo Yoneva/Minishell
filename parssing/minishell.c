@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/02 07:31:02 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/07/09 18:27:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	fill_env_list(char **env, t_env **list)
 	}
 }
 
+void	l(void)
+{
+	system("leaks Minishell");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_env		*listed;
@@ -62,6 +67,7 @@ int	main(int ac, char **av, char **env)
 	t_cmd		*commands ;
 	char		*cmd;
 
+	atexit(l);
 	(void)av;
 	(void)ac;
 	listed = NULL;

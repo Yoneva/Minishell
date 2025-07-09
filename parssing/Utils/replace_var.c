@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/03 07:23:03 by user             ###   ########.fr       */
+/*   Updated: 2025/07/09 18:00:40 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,38 @@
 void	*helper_fun(int i, const char *input, char *result)
 {
 	char	*s;
+	char	*n_rslt;
 
 	s = malloc(2);
 	if (!s)
+	{
+		free(result);
 		return (NULL);
+	}
 	s[0] = input[i];
 	s[1] = '\0';
-	result = ft_strjoin(result, s);// add char to result
+	n_rslt = ft_strjoin(result, s);// add char to result
+	free(result);
 	free(s);
-	return (result);
+	return (n_rslt);
 }
 
 void	*if_dollar_sign(int i, char *result, char *input, t_env **env)
 {
 	char	*tmp;
+	char	*n_rslt;
 
 	i += 1;
 	tmp = serachforvar(input + i, env); // Search for variable in env list
-	if (tmp)
-		return (ft_strjoin(result, tmp)); // Add value to result
-	else
+	if (!tmp)
+	{
+		free(result);
 		return (NULL);
+	}
+	n_rslt = ft_strjoin(result, tmp);// Add value to result
+	free(tmp);
+	free(result);
+	return (n_rslt);
 }
 
 char	*replace_in_double(int i, int j, char *input, t_env **env)
@@ -67,24 +78,24 @@ char	*replace_in_double(int i, int j, char *input, t_env **env)
 	return (result);
 }
 
-int	process_token(char *input, int i, t_tokens **cmd, t_env **listed, int *has_word)
+int	process_token(char *input, int i, t_token_context *ctx)
 {
 	int			j;
 	t_tokens	*node;
 
 	if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 	{
-		j = first_case(&node, input + i, cmd, has_word);
+		j = first_case(&node, input + i, ctx->cmd, &ctx->has_word);
 		if (j < 0)
 			return (-1);
 		return (i + j);
 	}
 	else
 	{
-		j = process_word(input, i, cmd, listed);
+		j = process_word(input, i, ctx->cmd, ctx->listed);
 		if (j < 0)
 			return (-1);
-		*has_word = 1;
+		ctx->has_word = 1;
 		return (j);
 	}
 }

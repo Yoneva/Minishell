@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:01:20 by user              #+#    #+#             */
-/*   Updated: 2025/07/03 06:14:36 by user             ###   ########.fr       */
+/*   Updated: 2025/07/09 14:21:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	skip_spaces(const char *str, int i)
 {
-	while (str[i] == ' ')
+	while (ft_isspace(str[i]))
 		i++;
 	return (i);
 }

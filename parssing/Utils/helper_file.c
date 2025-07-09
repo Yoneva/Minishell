@@ -6,39 +6,11 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/03 06:08:45 by user             ###   ########.fr       */
+/*   Updated: 2025/07/09 17:49:21 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	*serachforvar(char *input, t_env **env)
-{
-	char	*str;
-	t_env	*tmp;
-	int		len;
-
-	tmp = *env;
-	len = 0;
-	while (input[len] && (ft_isalnum(input[len])
-			|| input[len] == '_') && input[len] != '?')
-		len++;
-	if (input[0] == '?')
-	{
-		str = ft_itoa(g_status);
-		g_status = 0;
-		return (str);
-	}
-	str = ft_substr(input, 0, len);
-	while (tmp)
-	{
-		if (ft_strcmp(str, tmp->data) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	free (str);
-	return (NULL);
-}
 
 int	single_quote(char *str, char **word, char **tmp)
 {
@@ -65,6 +37,7 @@ int	double_quote(char *str, char **word, char **tmp, t_env **env)
 	int		i;
 	int		j;
 	char	*seg;
+	char	*replaced;
 
 	i = 1;
 	j = i;
@@ -75,10 +48,11 @@ int	double_quote(char *str, char **word, char **tmp, t_env **env)
 	if (str[i] != '"')
 		return (-1);
 	seg = substr_quotes(str, j, i - j, 0);
-	seg = replace_in_double(0, 0, seg, env);
-	*tmp = ft_strjoin(*word, seg);
-	free(*word);
+	replaced = replace_in_double(0, 0, seg, env);
 	free(seg);
+	*tmp = ft_strjoin(*word, replaced);
+	free(*word);
+	free(replaced);
 	*word = *tmp;
 	return (i + 1);
 }
