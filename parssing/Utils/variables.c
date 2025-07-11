@@ -6,11 +6,25 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 16:44:14 by user              #+#    #+#             */
-/*   Updated: 2025/07/09 18:12:32 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 15:23:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	find_equale(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		i++;
+	}
+	return (0);
+}
 
 static char	*handle_question_mark(void)
 {

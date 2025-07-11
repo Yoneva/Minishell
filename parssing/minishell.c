@@ -6,25 +6,11 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/09 18:27:20 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 15:33:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	find_tosawi(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		i++;
-	}
-	return (0);
-}
 
 void	fill_env_list(char **env, t_env **list)
 {
@@ -35,7 +21,7 @@ void	fill_env_list(char **env, t_env **list)
 	i = 0;
 	while (env[i])
 	{
-		tmp = find_tosawi(env[i]);
+		tmp = find_equale(env[i]);
 		if (!tmp)
 		{
 			ft_envclear(list);
@@ -60,54 +46,65 @@ void	l(void)
 	system("leaks Minishell");
 }
 
+int	init_env(char **env, t_env **listed)
+{
+	*listed = NULL;
+	if (!env || env[0][0] == '\0')
+	{
+		*listed = malloc(sizeof(t_env));
+		if (!*listed)
+			return (-1);
+		(*listed)->data = NULL;
+		(*listed)->value = NULL;
+	}
+	else
+		fill_env_list(env, listed);
+	return (0);
+}
+
+void	handle_command(char *cmd, t_tokens **tokens, t_cmd **cmds, t_env **list)
+{
+	if (*cmd)
+	{
+		add_history(cmd);
+		tokenize_shell(cmd, tokens, list);
+		if (*tokens)
+		{
+			*cmds = parse_cmd(*tokens);
+			if (*cmds)
+			{
+				if ((*cmds)->next)
+					exec_pipeline(*cmds, list);
+				else
+					exec_single(cmds, list);
+				free_cmd(cmds);
+			}
+		}
+		ft_tokensclear(tokens);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_env		*listed;
 	t_tokens	*tokens;
-	t_cmd		*commands ;
+	t_cmd		*commands;
 	char		*cmd;
 
-	atexit(l);
-	(void)av;
-	(void)ac;
-	listed = NULL;
 	tokens = NULL;
 	commands = NULL;
-	fill_env_list(env, &listed);
-	if (!listed)
-	{
-		//fill with "/0"
-	}
+	if (ac != 1 || init_env(env, &listed) < 0)
+		return (0);
+	(void)av;
+	(void)ac;
+	atexit(l);
 	while (1)
 	{
 		cmd = readline(">> ");
 		if (!cmd)
 			break ;
-		if (*cmd == '\0')
-		{
-			free(cmd);
-			continue ;
-		}
-		add_history(cmd);
-		tokenize_shell(cmd, &tokens, &listed);
-		if (!tokens)
-			continue ;
-		commands = parse_cmd(tokens);
+		handle_command(cmd, &tokens, &commands, &listed);
 		free(cmd);
-		if (!commands)
-		{
-			fprintf(stderr, "parse_commands: empty or malloc failure\n");
-			ft_tokensclear(&tokens);
-			tokens = NULL;
-			continue ;
-		}
-		if (commands->next)
-			exec_pipeline(commands, &listed);
-		else
-			exec_single(&commands, &listed);
-		free_cmd(&commands);
-		ft_tokensclear(&tokens);
-		tokens = NULL;
 	}
 	ft_envclear(&listed);
 	return (0);

@@ -9,7 +9,7 @@ SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c 
 		parssing/Utils/replace_var.c parssing/Utils/helper_file2.c parssing/Utils/redirections.c \
 		parssing/Utils/tokens_helper.c parssing/Utils/variables.c
 HEADER = parssing/minishell.h libft/libft.h exec/exec.h builtins/builtins.h
-FLAGS = #-fsanitize=address -Wall -Wextra -Werror -g
+FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 OBJS = $(SRCS:.c=.o)
 NAME = Minishell
 

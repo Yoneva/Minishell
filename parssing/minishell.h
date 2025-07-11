@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/09 18:26:34 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 15:23:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int			process_word(char *input, int i, t_tokens **cmd, t_env **listed);
 int			first_case(t_tokens **node, char *input, t_tokens **cmd,
 				int *has_word);
 int			process_token(char *input, int i, t_token_context *ctx);
+int			find_equale(char *str);
 
 // for cmd struct
 t_cmd		*parse_cmd(t_tokens *tokens);
