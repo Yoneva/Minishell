@@ -9,28 +9,47 @@ SRCS = parssing/minishell.c parssing/Utils/linked_env.c parssing/Utils/tokens.c 
 		parssing/Utils/replace_var.c parssing/Utils/helper_file2.c parssing/Utils/redirections.c \
 		parssing/Utils/tokens_helper.c parssing/Utils/variables.c
 HEADER = parssing/minishell.h libft/libft.h exec/exec.h builtins/builtins.h
-FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
+FLAGS = -fsanitize=address -Wall -Wextra -Werror -g 
 OBJS = $(SRCS:.c=.o)
 NAME = Minishell
 
-all: $(LIBFT) $(NAME)
+
+all: banner $(LIBFT) $(NAME) finish
+
+banner:
+	@echo "\033[1;35m"
+	@echo " __  __ _       _     _          _ _ "
+	@echo "|  \/  (_)     (_)   | |        | | |"
+	@echo "| \  / |_ _ __  _ ___| |__   ___| | |"
+	@echo "| |\/| | | '_ \| / __| '_ \ / _ \ | |"
+	@echo "| |  | | | | | | \__ \ | | |  __/ | |"
+	@echo "|_|  |_|_|_| |_|_|___/_| |_|\___|_|_|"
+	@echo ""
+	@echo "          Minishell compiling..."
+	@echo "\033[0m"
+
+finish:
+	@echo "\033[1;32m✔️ Minishell Compiled\033[0m"
+
+# Modified all target to include banner and finish
 
 $(LIBFT):
-	$(MAKE) -C libft fclean all
+	@$(MAKE) -C libft
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) $(FLAGS) $(LIBFT) $(LIBS) -o $(NAME)
+	@$(CC) $(OBJS) $(FLAGS) $(LIBFT) $(LIBS) -o $(NAME)
 
 .c.o: $(HEADER)
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	$(MAKE) -C libft clean 
+	@rm -f $(OBJS)
+	@$(MAKE) -C libft clean 
+	@echo "Cleaned :3"
 
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) -C libft fclean
+	@rm -f $(NAME)
+	@$(MAKE) -C libft fclean
 
 re: fclean all
 
