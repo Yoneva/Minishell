@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:42:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/09 18:00:40 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 22:54:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*replace_in_double(int i, int j, char *input, t_env **env)
 	result = ft_strdup("");
 	while (input[i])
 	{
-		if (input[i] == '$')
+		if (input[i] == '$' && input[i + 1] != '\'')
 		{
 			result = if_dollar_sign(i, result, input, env);
 			if (!result)

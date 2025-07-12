@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 15:33:36 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 20:37:25 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **env)
 		return (0);
 	(void)av;
 	(void)ac;
-	atexit(l);
+	// atexit(l);
 	while (1)
 	{
 		cmd = readline(">> ");

@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/09 18:20:44 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 23:06:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	error(char *input, t_tokens **cmd, t_env **listed)
 {
 	ft_tokensclear(cmd);
 	ft_envclear(listed);
-	free(input);
+	// free(input);
+	(void)input; // Avoid unused variable warning
 }
 
 int	if_envariable(char *str, char **word, t_env **env)
@@ -38,7 +39,7 @@ int	if_envariable(char *str, char **word, t_env **env)
 	replaced = replace_in_double(0, 0, seg, env);
 	free(seg);
 	if (!replaced)
-		seg = ft_strdup("");
+		replaced = ft_strdup("");
 	tmp = ft_strjoin(*word, replaced);
 	free(*word);
 	free(replaced);

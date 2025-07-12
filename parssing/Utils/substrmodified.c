@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substrmodified.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 19:57:21 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/02 06:54:23 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/07/11 21:57:29 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ char	*substr_quotes(char const *s, unsigned int start, size_t len, size_t i)
 	if (len > ft_strlen(s + start))
 		len = ft_strlen(s + start);
 	i = 0;
-	str = malloc((len + 1) * sizeof(char));
+	str = malloc(len + 1);
 	if (!str)
 		return (NULL);
 	while (i < len)
 	{
-		if (s[start] == '\'' || s[start] == '"')
+		if ((s[start] == '\'' || s[start] == '"' ) && str[0] != '$')
 		{
 			start++;
 			len--;//Decrease len to account for the skipped quote

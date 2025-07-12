@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/09 17:49:21 by user             ###   ########.fr       */
+/*   Updated: 2025/07/11 22:01:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,17 @@ int	single_quote(char *str, char **word, char **tmp)
 int	double_quote(char *str, char **word, char **tmp, t_env **env)
 {
 	int		i;
-	int		j;
 	char	*seg;
 	char	*replaced;
 
 	i = 1;
-	j = i;
-	if (!str[i])
+	if (!str[i] || str[i] == '\0')
 		return (-1);
 	while (str[i] && str[i] != '"') // wont work in false cases
 		i++;
 	if (str[i] != '"')
 		return (-1);
-	seg = substr_quotes(str, j, i - j, 0);
+	seg = substr_quotes(str, 1, i - 1, 0);
 	replaced = replace_in_double(0, 0, seg, env);
 	free(seg);
 	*tmp = ft_strjoin(*word, replaced);
