@@ -74,10 +74,16 @@ typedef struct s_token_context
 	int			has_word;
 }	t_token_context;
 
+typedef struct s_data
+{
+	t_cmd	*cmd;
+	t_env	*env;
+}	t_data;
+
 int			main(int ac, char **av, char **env);
 int			skip_spaces(const char *str, int i);
 char		**ft_split(char const *s, char c);
-int			exec_single(t_cmd **c, t_env **env);
+int			exec_single(t_cmd *c, t_env **env);
 int			if_envariable(char *str, char **word, t_env **env);
 void		tokenize_shell(char *input, t_tokens **cmd, t_env **listed);
 int			ft_strcmp(const char *s1, const char *s2);
@@ -93,6 +99,10 @@ int			first_case(t_tokens **node, char *input, t_tokens **cmd,
 				int *has_word);
 int			process_token(char *input, int i, t_token_context *ctx);
 int			find_equale(char *str);
+t_tokens	*ft_lexer(char *line);
+t_cmd		*ft_parsser(t_tokens *tokens, t_env *env_list);
+void		free_tokens(t_tokens **tokens);
+void		ft_parssing_env(char **env, t_env **env_list);
 
 // for cmd struct
 t_cmd		*parse_cmd(t_tokens *tokens);
