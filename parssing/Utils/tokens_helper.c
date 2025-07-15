@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:52:35 by user              #+#    #+#             */
-/*   Updated: 2025/07/15 02:18:11 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/15 15:21:16 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	handle_quotes(char *input, char **word, t_env **listed, int i)
 		j = double_quote(input + i, word, &tmp, listed);
 	if (j < 0)
 	{
-		printf("minishell: syntax error near unexpected token '%c'\n", input[i]);	
+		printf("minishell: syntax error near unexpected token '%c'\n",
+			input[i]);
 		return (-1);
 	}
 	return (j);
