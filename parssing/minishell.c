@@ -6,13 +6,31 @@
 /*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/15 03:12:33 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:03:21 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+#include <readline/readline.h>
 
 int	g_status = 0;
+
+void	sigint_handler(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_status = 1;
+}
+
+static void	setup_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	fill_env_list(char **env, t_env **list)
 {
@@ -99,6 +117,7 @@ int	main(int ac, char **av, char **env)
 		return (0);
 	(void)av;
 	(void)ac;
+	setup_signals();
 	// atexit(l);
 	while (1)
 	{

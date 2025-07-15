@@ -75,7 +75,12 @@ static int	exec_forked(t_cmd *c, t_env **env)
 	if (pid == 0)
 	{
 		if (apply_redirs(c) != 0)
-			exit(1);
+		{
+			if (g_status == 130)
+				exit(130);
+			else
+				exit(1);
+		}
 		if (c->builtin_id >= 0)
 			exit(g_builtins[c->builtin_id].fn(c, env));
 		envp = env_list_to_array(*env);
