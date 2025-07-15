@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:52:35 by user              #+#    #+#             */
-/*   Updated: 2025/07/11 20:42:18 by user             ###   ########.fr       */
+/*   Updated: 2025/07/15 02:18:11 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../../builtins/builtins.h"
 
 int	handle_normal_char(char *input, char **word, int i)
 {

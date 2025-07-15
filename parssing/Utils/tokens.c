@@ -3,15 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 23:06:57 by user             ###   ########.fr       */
+/*   Updated: 2025/07/15 02:18:26 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
-#include "../../builtins/builtins.h"
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"

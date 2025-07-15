@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 20:37:25 by user             ###   ########.fr       */
+/*   Updated: 2025/07/15 03:12:33 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_status = 0;
 
 void	fill_env_list(char **env, t_env **list)
 {
@@ -74,9 +76,9 @@ void	handle_command(char *cmd, t_tokens **tokens, t_cmd **cmds, t_env **list)
 			if (*cmds)
 			{
 				if ((*cmds)->next)
-					exec_pipeline(*cmds, list);
+					g_status = exec_pipeline(*cmds, list);
 				else
-					exec_single(cmds, list);
+					g_status = exec_single(*cmds, list);
 				free_cmd(cmds);
 			}
 		}
