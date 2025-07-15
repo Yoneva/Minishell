@@ -35,7 +35,12 @@ static void	execute_piped_command(t_cmd *cmd, t_env **env)
 	char	**envp;
 
 	if (apply_redirs(cmd) != 0)
-		exit(1);
+	{
+		if (g_status == 130)
+			exit(130);
+		else
+			exit(1);
+	}
 	if (cmd->builtin_id >= 0)
 		exit(g_builtins[cmd->builtin_id].fn(cmd, env));
 	envp = env_list_to_array(*env);

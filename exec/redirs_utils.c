@@ -6,7 +6,7 @@
 /*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:45:36 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 02:48:55 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/15 04:42:15 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	apply_redirs(t_cmd *c)
 		fd = open_redir_file(&c->redir[i]);
 		if (fd < 0)
 		{
+			if (c->redir[i].type == N_HEREDOC_SIGN && g_status == 130)
+				return (2);
 			perror(c->redir[i].filename);
 			return (1);
 		}
