@@ -30,10 +30,7 @@ typedef struct s_bdispatch
 	t_builtin_fn			fn;
 }							t_bdispatch;
 
-/*
-** External declaration of the builtin dispatch table
-*/
-extern const t_bdispatch	g_builtins[];
+const t_bdispatch	*get_builtins(void);
 
 int							bi_echo(t_cmd *c, t_env **env);
 int							bi_cd(t_cmd *c, t_env **env);

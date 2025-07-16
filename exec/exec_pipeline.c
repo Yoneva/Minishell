@@ -6,7 +6,7 @@
 /*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:44:13 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 02:52:35 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/16 14:54:19 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	execute_piped_command(t_cmd *cmd, t_env **env)
 			exit(1);
 	}
 	if (cmd->builtin_id >= 0)
-		exit(g_builtins[cmd->builtin_id].fn(cmd, env));
+		exit(get_builtins()[cmd->builtin_id].fn(cmd, env));
 	envp = env_list_to_array(*env);
 	exec_external(cmd, env, envp);
 	exit(127);

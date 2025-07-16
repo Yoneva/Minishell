@@ -83,7 +83,7 @@ static int	exec_forked(t_cmd *c, t_env **env)
 				exit(1);
 		}
 		if (c->builtin_id >= 0)
-			exit(g_builtins[c->builtin_id].fn(c, env));
+			exit(get_builtins()[c->builtin_id].fn(c, env));
 		envp = env_list_to_array(*env);
 		exec_external(c, env, envp);
 	}
@@ -93,6 +93,6 @@ static int	exec_forked(t_cmd *c, t_env **env)
 int	exec_single(t_cmd *c, t_env **env)
 {
 	if (c->builtin_id >= 0 && c->n_redir == 0)
-		return (g_builtins[c->builtin_id].fn(c, env));
+		return (get_builtins()[c->builtin_id].fn(c, env));
 	return (exec_forked(c, env));
 }

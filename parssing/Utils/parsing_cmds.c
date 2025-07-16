@@ -54,9 +54,9 @@ static int	builtin_id(const char *word)
 	int	i;
 
 	i = 0;
-	while (g_builtins[i].name)
+	while (get_builtins()[i].name)
 	{
-		if (!ft_strcmp(word, g_builtins[i].name))
+		if (!ft_strcmp(word, get_builtins()[i].name))
 			return (i);
 		i++;
 	}
