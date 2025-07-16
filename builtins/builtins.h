@@ -6,7 +6,7 @@
 /*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:19:21 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 02:42:40 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/16 18:06:42 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_bdispatch
 	t_builtin_fn			fn;
 }							t_bdispatch;
 
-const t_bdispatch	*get_builtins(void);
+const t_bdispatch			*get_builtins(void);
 
 int							bi_echo(t_cmd *c, t_env **env);
 int							bi_cd(t_cmd *c, t_env **env);
