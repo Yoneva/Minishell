@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../builtins/status.h"
 #include <signal.h>
 #include <readline/readline.h>
-
-int	g_status = 0;
 
 void	sigint_handler(int sig)
 {
@@ -23,7 +22,7 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_status = 1;
+	set_status(1);
 }
 
 static void	setup_signals(void)
@@ -34,8 +33,8 @@ static void	setup_signals(void)
 
 void	fill_env_list(char **env, t_env **list)
 {
-	int		tmp;
-	int		i;
+	int	tmp;
+	int	i;
 	t_env	*node;
 
 	i = 0;
@@ -94,9 +93,9 @@ void	handle_command(char *cmd, t_tokens **tokens, t_cmd **cmds, t_env **list)
 			if (*cmds)
 			{
 				if ((*cmds)->next)
-					g_status = exec_pipeline(*cmds, list);
+					set_status(exec_pipeline(*cmds, list));
 				else
-					g_status = exec_single(*cmds, list);
+					set_status(exec_single(*cmds, list));
 				free_cmd(cmds);
 			}
 		}

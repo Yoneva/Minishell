@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
+#include "../../builtins/status.h"
 
 static int	it_redir(int sign)
 {
@@ -102,7 +103,7 @@ static void	fill_cmd_struct(t_cmd *cmd, t_tokens **tokp)
 			{
 				fprintf(stderr,
 					"minishell: syntax error near unexpected token `newline'\n");
-				g_status = 1;
+				set_status(1);
 				// should handle syntax error | free everything that been used
 				return ;
 			}

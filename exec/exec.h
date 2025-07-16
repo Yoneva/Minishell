@@ -6,7 +6,7 @@
 /*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:45:26 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 19:03:21 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/07/15 23:45:07 by ayousr           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "../parssing/minishell.h"
 # include <sys/wait.h>
 # include <fcntl.h>
-
-extern int	g_status;
 
 void	exec_external(t_cmd *c, t_env **env, char **envp);
 char	**env_list_to_array(t_env *lst);

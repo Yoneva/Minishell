@@ -15,8 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
-
-extern int	g_status;
+#include "../builtins/status.h"
 
 static void	heredoc_sigint_handler(int sig)
 {
@@ -73,7 +72,7 @@ static int	wait_for_heredoc(pid_t pid, int *p, void (*old_sigint)(int))
 	signal(SIGINT, old_sigint);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 	{
-		g_status = 130;
+		set_status(130);
 		close(p[0]);
 		return (-1);
 	}

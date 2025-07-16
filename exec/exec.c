@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "../builtins/builtins.h"
+#include "../builtins/status.h"
 
 static void	try_paths(char **argv, t_env *env, char **envp)
 {
@@ -76,7 +77,7 @@ static int	exec_forked(t_cmd *c, t_env **env)
 	{
 		if (apply_redirs(c) != 0)
 		{
-			if (g_status == 130)
+			if (get_status() == 130)
 				exit(130);
 			else
 				exit(1);
