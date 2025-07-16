@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/status.h"
 
 int	skip_spaces(const char *str, int i)
 {
@@ -53,13 +54,13 @@ int	handle_redirection(const char *str, int i, t_tokens **cmd, int cas)
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token '%c'\n", str[i]);
-		g_status = 258;
+		set_status(258);
 		return (-1);
 	}
 	if (str[i] == '>' || str[i] == '<' || str[i] == '|')
 	{
 		printf("minishell: syntax error near unexpected token '%c'\n", str[i]);
-		g_status = 258;
+		set_status(258);
 		return (-1);
 	}
 	return (i);

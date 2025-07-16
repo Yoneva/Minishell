@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/status.h"
 
 int	find_equale(char *str)
 {
@@ -30,8 +31,8 @@ static char	*handle_question_mark(void)
 {
 	char	*result;
 
-	result = ft_itoa(g_status);
-	g_status = 0;
+	result = ft_itoa(get_status());
+	set_status(0);
 	return (result);
 }
 

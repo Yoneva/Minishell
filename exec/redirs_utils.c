@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "../builtins/status.h"
 
 static int	open_redir_file(t_redir *redir)
 {
@@ -40,7 +41,7 @@ static int	process_single_redirection(t_redir *redir)
 	fd = open_redir_file(redir);
 	if (fd < 0)
 	{
-		if (redir->type == N_HEREDOC_SIGN && g_status == 130)
+		if (redir->type == N_HEREDOC_SIGN && get_status() == 130)
 			return (2);
 		perror(redir->filename);
 		return (1);

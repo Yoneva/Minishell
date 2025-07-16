@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/status.h"
 
 int	single_quote(char *str, char **word, char **tmp)
 {
@@ -62,7 +63,7 @@ int	pipes(const char *str, int i, t_tokens **cmd)
 	if (str[i] == 0)
 	{
 		printf("minishell: syntax error near unexpected token '|'\n");
-		g_status = 258;
+		set_status(258);
 		return (-1);
 	}
 	while (str[i])
@@ -72,7 +73,7 @@ int	pipes(const char *str, int i, t_tokens **cmd)
 		else if (str[i] == '|' || str[i] == 0)
 		{
 			printf("minishell: syntax error near unexpected token '|'\n");
-			g_status = 258;
+			set_status(258);
 			return (-1);
 		}
 		else

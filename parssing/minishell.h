@@ -21,7 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern int	g_status;
+
 
 enum e_sign
 {

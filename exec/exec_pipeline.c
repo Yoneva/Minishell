@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "../builtins/builtins.h"
+#include "../builtins/status.h"
 #include <sys/wait.h>
 
 static void	setup_child_pipes(int p[2][2], int i, int is_last)
@@ -36,7 +37,7 @@ static void	execute_piped_command(t_cmd *cmd, t_env **env)
 
 	if (apply_redirs(cmd) != 0)
 	{
-		if (g_status == 130)
+		if (get_status() == 130)
 			exit(130);
 		else
 			exit(1);

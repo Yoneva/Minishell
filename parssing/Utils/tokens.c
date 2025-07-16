@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
+#include "../../builtins/status.h"
 
 void	error(char *input, t_tokens **cmd, t_env **listed)
 {
@@ -55,7 +56,7 @@ int	first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word)
 		if (*has_word == 0)
 		{
 			printf("minishell: syntax error near unexpected token '|'\n");
-			g_status = 285;
+			set_status(285);
 			return (-1);
 		}
 		i = pipes(input, i, node);
