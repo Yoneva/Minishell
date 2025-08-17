@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 15:23:23 by user             ###   ########.fr       */
+/*   Updated: 2025/08/16 22:04:01 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@
 # include <stdio.h>
 # include <signal.h>
 # include "../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-
-
+# include "/Users/amsbai/.brew/opt/readline/include/readline/readline.h"
+# include "/Users/amsbai/.brew/opt/readline/include/readline/history.h"
 
 enum e_sign
 {

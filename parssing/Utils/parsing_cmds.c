@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:26:34 by user              #+#    #+#             */
-/*   Updated: 2025/07/03 06:33:44 by user             ###   ########.fr       */
+/*   Updated: 2025/08/16 22:00:36 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ static void	fill_cmd_struct(t_cmd *cmd, t_tokens **tokp)
 				fprintf(stderr,
 					"minishell: syntax error near unexpected token `newline'\n");
 				set_status(1);
-				// should handle syntax error | free everything that been used
 				return ;
 			}
 			cmd->redir[redirt_i].type = tok->type;
@@ -115,7 +114,6 @@ static void	fill_cmd_struct(t_cmd *cmd, t_tokens **tokp)
 	}
 	cmd->argv[argt_i] = NULL;
 	cmd->n_redir = redirt_i;
-	// Set builtin_id if we have a command
 	if (cmd->argv[0])
 		cmd->builtin_id = builtin_id(cmd->argv[0]);
 	if (tok && tok->type == N_PIPE)

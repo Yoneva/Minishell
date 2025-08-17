@@ -37,10 +37,10 @@ $(LIBFT):
 	@$(MAKE) -C libft
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(OBJS) $(FLAGS) $(LIBFT) $(LIBS) -o $(NAME)
+	@$(CC) $(OBJS) -L ~/.brew/opt/readline/lib/ -lreadline $(FLAGS) $(LIBFT) $(LIBS) -o $(NAME)
 
 .c.o: $(HEADER)
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -I ~/.brew/opt/readline/include/ -c $< -o $@
 
 clean:
 	@rm -f $(OBJS)

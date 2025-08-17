@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/15 02:18:26 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/16 21:59:23 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word)
 			return (-1);
 		}
 		i = pipes(input, i, node);
-		*has_word = 0;// Reset after pipe
+		*has_word = 0;
 	}
 	else if (input[i] == '<')
 		i = redirections2(input, i, node);

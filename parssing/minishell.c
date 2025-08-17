@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/15 19:03:21 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/16 22:05:06 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../builtins/status.h"
 #include <signal.h>
-#include <readline/readline.h>
 
 void	sigint_handler(int sig)
 {
@@ -33,8 +32,8 @@ static void	setup_signals(void)
 
 void	fill_env_list(char **env, t_env **list)
 {
-	int	tmp;
-	int	i;
+	int		tmp;
+	int		i;
 	t_env	*node;
 
 	i = 0;
@@ -58,11 +57,6 @@ void	fill_env_list(char **env, t_env **list)
 		node = node->next;
 		i++;
 	}
-}
-
-void	l(void)
-{
-	system("leaks Minishell");
 }
 
 int	init_env(char **env, t_env **listed)
@@ -117,7 +111,6 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)ac;
 	setup_signals();
-	// atexit(l);
 	while (1)
 	{
 		cmd = readline(">> ");
