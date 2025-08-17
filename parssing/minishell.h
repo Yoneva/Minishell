@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 15:23:23 by user             ###   ########.fr       */
+/*   Updated: 2025/08/17 23:22:51 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-
-
 
 enum e_sign
 {
@@ -126,5 +124,16 @@ int			double_quote(char *str, char **word, char **tmp, t_env **h);
 int			pipes(const char *str, int i, t_tokens **cmd);
 int			redirections1(const char *str, int i, t_tokens **cmd);
 int			redirections2(const char *str, int i, t_tokens **cmd);
+
+// for cmds struct
+int			count_redirs(t_tokens *tok);
+int			count_args(t_tokens *tok);
+int			it_redir(int sign);
+int			builtin_id(const char *word);
+void		init_cmd_struct(t_cmd *cmd, int argc, int rcount);
+int			handle_syntax_error(void);
+
+// signals
+void	setup_signals(void);
 
 #endif

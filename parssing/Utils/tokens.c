@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/15 02:18:26 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/17 23:34:44 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
 #include "../../builtins/status.h"
-
-void	error(char *input, t_tokens **cmd, t_env **listed)
-{
-	ft_tokensclear(cmd);
-	ft_envclear(listed);
-	// free(input);
-	(void)input; // Avoid unused variable warning
-}
 
 int	if_envariable(char *str, char **word, t_env **env)
 {
@@ -60,7 +52,7 @@ int	first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word)
 			return (-1);
 		}
 		i = pipes(input, i, node);
-		*has_word = 0;// Reset after pipe
+		*has_word = 0;
 	}
 	else if (input[i] == '<')
 		i = redirections2(input, i, node);
@@ -83,7 +75,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 	ctx.listed = listed;
 	ctx.cmd = cmd;
 	if (!input)
-		return (error(input, cmd, listed));
+		return (ft_tokensclear(cmd));
 	while (input[i])
 	{
 		if (ft_isspace((unsigned char)input[i]))
@@ -92,7 +84,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 		{
 			j = process_token(input, i, &ctx);
 			if (j < 0)
-				return (error(input, cmd, listed));
+				ft_tokensclear(cmd);;
 			i = j;
 		}
 	}
