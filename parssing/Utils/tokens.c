@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/17 23:34:44 by user             ###   ########.fr       */
+/*   Updated: 2025/08/17 23:37:06 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 		{
 			j = process_token(input, i, &ctx);
 			if (j < 0)
-				ft_tokensclear(cmd);;
+				ft_tokensclear(cmd);
 			i = j;
 		}
 	}

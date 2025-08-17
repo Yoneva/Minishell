@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/17 23:22:51 by user             ###   ########.fr       */
+/*   Updated: 2025/08/17 23:39:02 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,6 @@ void		init_cmd_struct(t_cmd *cmd, int argc, int rcount);
 int			handle_syntax_error(void);
 
 // signals
-void	setup_signals(void);
+void		setup_signals(void);
 
 #endif

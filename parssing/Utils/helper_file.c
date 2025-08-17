@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/07/11 22:01:03 by user             ###   ########.fr       */
+/*   Updated: 2025/08/17 23:37:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	double_quote(char *str, char **word, char **tmp, t_env **env)
 	i = 1;
 	if (!str[i] || str[i] == '\0')
 		return (-1);
-	while (str[i] && str[i] != '"') // wont work in false cases
+	while (str[i] && str[i] != '"')
 		i++;
 	if (str[i] != '"')
 		return (-1);
