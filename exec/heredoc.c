@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:45:33 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 19:03:21 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/17 23:47:45 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static int	heredoc_loop(int write_fd, const char *limiter)
 			free(line);
 			return (0);
 		}
-		if (write(write_fd, line, ft_strlen(line)) == -1 || \
-			write(write_fd, "\n", 1) == -1)
+		if (write(write_fd, line, ft_strlen(line)) == -1
+			|| write(write_fd, "\n", 1) == -1)
 		{
 			free(line);
 			return (1);
