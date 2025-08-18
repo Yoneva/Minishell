@@ -6,13 +6,12 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:41:51 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/16 22:05:06 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 00:08:52 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../builtins/status.h"
-#include <signal.h>
 
 void	sigint_handler(int sig)
 {
@@ -22,12 +21,6 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	set_status(1);
-}
-
-static void	setup_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 void	fill_env_list(char **env, t_env **list)
@@ -58,6 +51,11 @@ void	fill_env_list(char **env, t_env **list)
 		i++;
 	}
 }
+
+// void	l(void)
+// {
+// 	system("leaks Minishell");
+// }
 
 int	init_env(char **env, t_env **listed)
 {

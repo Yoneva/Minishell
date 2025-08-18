@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:18:42 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/16 22:04:01 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 00:52:54 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void		tokenize_shell(char *input, t_tokens **cmd, t_env **listed);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*substr_quotes(char const *s, unsigned int start,
 				size_t len, size_t i);
+char		*ubstr_quotes(char const *s, unsigned int start,
+				size_t len, size_t i);
 int			exec_pipeline(t_cmd *first, t_env **env);
 int			get_heredoc_fd(const char *limiter);
 void		*ft_realloc(void *str, size_t newsize);
@@ -124,5 +126,17 @@ int			double_quote(char *str, char **word, char **tmp, t_env **h);
 int			pipes(const char *str, int i, t_tokens **cmd);
 int			redirections1(const char *str, int i, t_tokens **cmd);
 int			redirections2(const char *str, int i, t_tokens **cmd);
+
+// for cmds struct
+int			count_redirs(t_tokens *tok);
+int			count_args(t_tokens *tok);
+int			it_redir(int sign);
+int			builtin_id(const char *word);
+void		init_cmd_struct(t_cmd *cmd, int argc, int rcount);
+int			handle_syntax_error(void);
+
+// signals
+void		setup_signals(void);
+void		sigint_handler(int sig);
 
 #endif

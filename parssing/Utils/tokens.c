@@ -6,21 +6,13 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/16 21:59:23 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 00:25:17 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../../builtins/builtins.h"
 #include "../../builtins/status.h"
-
-void	error(char *input, t_tokens **cmd, t_env **listed)
-{
-	ft_tokensclear(cmd);
-	ft_envclear(listed);
-	// free(input);
-	(void)input; // Avoid unused variable warning
-}
 
 int	if_envariable(char *str, char **word, t_env **env)
 {
@@ -83,7 +75,7 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 	ctx.listed = listed;
 	ctx.cmd = cmd;
 	if (!input)
-		return (error(input, cmd, listed));
+		return (ft_tokensclear(cmd));
 	while (input[i])
 	{
 		if (ft_isspace((unsigned char)input[i]))
@@ -92,7 +84,10 @@ void	tokenize_shell(char *input, t_tokens **cmd, t_env **listed)
 		{
 			j = process_token(input, i, &ctx);
 			if (j < 0)
-				return (error(input, cmd, listed));
+			{
+				ft_tokensclear(cmd);
+				return ;
+			}
 			i = j;
 		}
 	}

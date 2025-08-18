@@ -6,11 +6,18 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:10:33 by user              #+#    #+#             */
-/*   Updated: 2025/07/02 07:02:13 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 00:53:18 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/status.h"
+
+void	setup_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 int	nlen(int nbr)
 {
@@ -57,4 +64,12 @@ char	*ft_itoa(int nbr)
 		len--;
 	}
 	return (cnum);
+}
+
+int	handle_syntax_error(void)
+{
+	fprintf(stderr,
+		"minishell: syntax error near unexpected token `newline'\n");
+	set_status(258);
+	return (-1);
 }

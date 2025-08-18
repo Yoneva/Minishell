@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:01:28 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/16 22:01:54 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 00:39:32 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	single_quote(char *str, char **word, char **tmp)
 		i++;
 	if (str[i] != '\'')
 		return (-1);
-	seg = substr_quotes(str, j, i - j, 0);
+	seg = ubstr_quotes(str, j, i - j, 0);
 	*tmp = ft_strjoin(*word, seg);
 	free(*word);
 	free(seg);

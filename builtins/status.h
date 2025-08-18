@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   status.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 23:41:02 by user              #+#    #+#             */
+/*   Updated: 2025/08/17 23:42:50 by user             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STATUS_H
 # define STATUS_H
 
-int get_status(void);
-void set_status(int status);
+int		get_status(void);
+void	set_status(int status);
 
 #endif
