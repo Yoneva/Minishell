@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:45:24 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 02:52:11 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/18 02:38:44 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	exec_forked(t_cmd *c, t_env **env)
 				exit(1);
 		}
 		if (c->builtin_id >= 0)
-			exit(g_builtins[c->builtin_id].fn(c, env));
+			exit(get_builtins()[c->builtin_id].fn(c, env));
 		envp = env_list_to_array(*env);
 		exec_external(c, env, envp);
 	}
@@ -93,6 +93,6 @@ static int	exec_forked(t_cmd *c, t_env **env)
 int	exec_single(t_cmd *c, t_env **env)
 {
 	if (c->builtin_id >= 0 && c->n_redir == 0)
-		return (g_builtins[c->builtin_id].fn(c, env));
+		return (get_builtins()[c->builtin_id].fn(c, env));
 	return (exec_forked(c, env));
 }

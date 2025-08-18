@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 06:52:35 by user              #+#    #+#             */
-/*   Updated: 2025/07/15 15:21:16 by user             ###   ########.fr       */
+/*   Updated: 2025/08/18 02:47:39 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../../builtins/builtins.h"
+#include "../../builtins/status.h"
 
 int	handle_normal_char(char *input, char **word, int i)
 {
@@ -42,6 +44,7 @@ int	handle_quotes(char *input, char **word, t_env **listed, int i)
 	{
 		printf("minishell: syntax error near unexpected token '%c'\n",
 			input[i]);
+		set_status(258);
 		return (-1);
 	}
 	return (j);

@@ -32,7 +32,6 @@ banner:
 finish:
 	@echo "\033[1;32m✔️ Minishell Compiled\033[0m"
 
-# Modified all target to include banner and finish
 
 $(LIBFT):
 	@$(MAKE) -C libft

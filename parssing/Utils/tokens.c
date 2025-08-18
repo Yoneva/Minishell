@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:50:18 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/18 00:25:17 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 02:46:05 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	first_case(t_tokens **node, char *input, t_tokens **cmd, int *has_word)
 		if (*has_word == 0)
 		{
 			printf("minishell: syntax error near unexpected token '|'\n");
-			set_status(285);
+			set_status(258);
 			return (-1);
 		}
 		i = pipes(input, i, node);

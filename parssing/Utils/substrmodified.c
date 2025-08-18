@@ -6,7 +6,7 @@
 /*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 19:57:21 by amsbai            #+#    #+#             */
-/*   Updated: 2025/08/18 02:06:21 by amsbai           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:02:30 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ubstr_quotes(char const *s, unsigned int start, size_t len, size_t i)
 		return (NULL);
 	while (i < len)
 	{
-		if ((s[start] == '\'' || s[start] == '"' ) && str[0] != '$')
+		if ((s[start] == '\'') && str[0] != '$')
 		{
 			start++;
 			len--;

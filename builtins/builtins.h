@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayousr <ayousr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:19:21 by ayousr            #+#    #+#             */
-/*   Updated: 2025/07/15 02:42:40 by ayousr           ###   ########.fr       */
+/*   Updated: 2025/08/18 02:36:07 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ typedef int					(*t_builtin_fn)(t_cmd *cmd, t_env **env);
 /*
 ** Dispatch table for builtins
 */
-typedef struct s_bdispatch
+typedef struct s_builtin
 {
 	char					*name;
 	t_builtin_fn			fn;
-}							t_bdispatch;
+}							t_builtin;
 
 /*
 ** External declaration of the builtin dispatch table
 */
-extern const t_bdispatch	g_builtins[];
-
+// extern const t_bdispatch	g_builtins[];
+const t_builtin				*get_builtins(void);
 int							bi_echo(t_cmd *c, t_env **env);
 int							bi_cd(t_cmd *c, t_env **env);
 int							bi_pwd(t_cmd *c, t_env **env);

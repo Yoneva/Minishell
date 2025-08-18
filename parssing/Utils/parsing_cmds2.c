@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmds2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amsbai <amsbai@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 22:28:40 by user              #+#    #+#             */
-/*   Updated: 2025/08/17 22:36:16 by user             ###   ########.fr       */
+/*   Updated: 2025/08/18 02:39:36 by amsbai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	builtin_id(const char *word)
 	int	i;
 
 	i = 0;
-	while (g_builtins[i].name)
+	while (get_builtins()[i].name)
 	{
-		if (!ft_strcmp(word, g_builtins[i].name))
+		if (!ft_strcmp(word, get_builtins()[i].name))
 			return (i);
 		i++;
 	}
